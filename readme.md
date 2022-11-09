@@ -5,17 +5,17 @@
 
 ## Port
 ```bash
-8000: web <br />
-5050: pgadmin <br />
-5432: postgres <br />
-6379: redis <br />
-7070: meilisearch <br />
+8000: web
+5050: pgadmin
+5432: postgres
+6379: redis
+7070: meilisearch
 ```
 
 ## Pgadmin
 ```bash
-Default user: pgadmin4@pgadmin.org <br />
-Default password: admin <br />
+Default user: pgadmin4@pgadmin.org
+Default password: admin
 
 Register server: 
     -host: db
@@ -27,7 +27,7 @@ Register server:
 ```bash
 Run project: start
 Stop project: stop
-Backend commands: Docker & db migration
+Backend commands: Docker & database migration
     be + docker + ( up | down | build | buildup )
     be + db + ( migrate | downgrade | makemigrations )
 Frontend commands: 
