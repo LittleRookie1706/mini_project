@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+
+  frontend:
+    container_name: mini_project_fe
+    image: bangtx/mini_project_fe:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/code'
+      - './node_modules:/code/node_modules'
+    ports:
+      - '3000:3000'
+    expose:
+      - 3000
+    command: ['npm', 'run', 'serve', '--', '--port', '3000']
