@@ -1,6 +1,6 @@
 from peewee import CharField, IntegerField, BooleanField
 
-from database.postgres.peewee_async import PeeweeModel
+from database.postgres.peewee.sync import PeeweeModel
 
 class Users(PeeweeModel):
 

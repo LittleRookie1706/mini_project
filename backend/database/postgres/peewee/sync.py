@@ -29,3 +29,6 @@ class PeeweeModel(Model):
     pass
     class Meta:
         database = db
+
+if db.is_closed():
+    db.connect()

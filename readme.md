@@ -25,13 +25,18 @@ Register server:
 
 ## Bash script: ./run.sh + command
 ```bash
+### Project
 Run project: start
 Stop project: stop
+Create super user: createsuperuser + email
+### Backend
 Backend commands: Docker & database migration
-    be + docker + ( up | down | build | buildup )
-    be + db + ( migrate | downgrade | makemigrations )
+    Docker: be + docker + ( up | down | build | buildup )
+    Migration: be + db + ( migrate | downgrade | makemigrations | rmmigrations )
+### Frontend
 Frontend commands: 
     fe + docker( up | down | build | buildup )
+### Other module
 See all active ports: active-port
 Kill a port: kill + port_number
 

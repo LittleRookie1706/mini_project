@@ -1,10 +1,9 @@
 <template>
   <v-card
-    max-width="600"
-    class="mx-auto"
+    max-width="700"
+    class="mx-auto mt-5"
   >
 
-    <v-container>
       <v-row dense>
 
         <v-col cols="12">
@@ -12,11 +11,9 @@
                 color="#1F7087"
                 theme="dark"
             >
-
-
                 <div class="d-flex flex-no-wrap justify-space-between">
                     <v-avatar
-                        class="ma-3"
+                        class="ma-5 rounded-lg"
                         size="150"
                         rounded="0"
                     >
@@ -24,31 +21,22 @@
                     </v-avatar>
                     
                     <div>
-                        <v-card-title class="text-h5">
+                        <v-card-title class="text-h4">
                         Supermodel
                         </v-card-title>
 
-                        <v-card-subtitle>Foster the People</v-card-subtitle>
-
-                        <v-card-actions>
-                        <v-btn
-                            class="ml-2"
-                            variant="outlined"
-                            size="small"
-                        >
-                            START RADIO
-                        </v-btn>
-                        </v-card-actions>
+                        <v-card-text>Foster the People</v-card-text>
+                        <!-- <div class="d-flex align-center flex-row"> -->
+                            <v-icon size="small" variant="text" icon="fas fa-heart"></v-icon>50
+                            <v-icon size="small" variant="text" icon="fas fa-eye"></v-icon>100
+                        <!-- </div> -->
                     </div>
-                    <v-btn size="small" color="surface-variant" variant="text" icon="fas fa-heart"></v-btn>
-                    <v-btn size="small" color="surface-variant" variant="text" icon="fas fa-eye"></v-btn>
                 </div>
                 
             </v-card>
         </v-col>
 
       </v-row>
-    </v-container>
   </v-card>
 </template>
 

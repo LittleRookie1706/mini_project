@@ -4,8 +4,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 #local
 from all_env import docs_url
-from database.postgres.peewee import db
-
 
 ### base setting ###
 app = FastAPI(docs_url=f"/{docs_url}", redoc_url=None)
@@ -26,7 +24,5 @@ app.add_middleware(
 # TemplateResponse = templates.TemplateResponse
 # app.mount("/static", StaticFiles(directory="./static"), name="static")
 
-@app.on_event("startup")
-async def startup():
-    if db.is_closed():
-        db.connect()
+
+    

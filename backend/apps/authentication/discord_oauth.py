@@ -1,5 +1,6 @@
 # fastapi
 from fastapi import Depends
+from fastapi.responses import JSONResponse
 
 #discord
 from fastapi_discord import User, DiscordOAuthClient
@@ -10,9 +11,8 @@ from . import router
 
 from all_env import CLIENT_ID, CLIENT_SECRET, REDIRECT_URL
 from .models import Users
-from database.postgres.peewee_async import db
 
-admin_ids=[]
+admin_ids=[880359404036317215]
 
 discord = DiscordOAuthClient(
     CLIENT_ID, CLIENT_SECRET, REDIRECT_URL, 
@@ -38,17 +38,20 @@ async def discord_oauth(code: str):
 
 @router.get("/get-user", dependencies=[Depends(discord.requires_authorization)])
 async def get_user(user: User = Depends(discord.user)):
-    return await db.get(Users, discord_id=user.id)
+    user = Users.get(discord_id=user.id).__data__
+    return user
 
-@router.put("/user", dependencies=[Depends(discord.requires_authorization)])
-async def update_user(user: User = Depends(discord.user)):
+@router.patch("/discord-users/{discord_id}", dependencies=[Depends(discord.requires_authorization)])
+async def update_user(discord_id: str, user: User = Depends(discord.user)):
+    if user.id == discord_id:
+        query = Users.update(
+            email=user.email,
+            username=user.username,
+            avatar=user.avatar_url,
+            is_admin=is_admin(int(user.id)),
+        ).where(Users.discord_id==user.id)
+        query.execute()
+        return "oke"
+    return JSONResponse({"error": "Permission denied"}, status_code=403)
 
-    await db.get_or_create(Users,
-        email=user.email,
-        username=user.username,
-        avatar=user.avatar_url,
-        discord_id=str(user.id)
-    )
-
-    return await db.get(Users, discord_id=user.id)
 
