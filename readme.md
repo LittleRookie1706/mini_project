@@ -26,13 +26,12 @@ Register server:
 ## Bash script: ./run.sh + command
 ```bash
 ### Project
-Run project: start
-Stop project: stop
+Run project: up
+Stop project: down
 Create super user: createsuperuser + email
 ### Backend
 Backend commands: Docker & database migration
-    Docker: be + docker + ( up | down | build | buildup )
-    Migration: be + db + ( migrate | downgrade | makemigrations | rmmigrations )
+    Docker: be + docker + ( up | down | build | buildup | resetmigrations )
 ### Frontend
 Frontend commands: 
     fe + docker( up | down | build | buildup )

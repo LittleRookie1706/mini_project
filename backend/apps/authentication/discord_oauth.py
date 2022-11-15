@@ -31,7 +31,7 @@ async def on_startup():
     await discord.init()
 
 
-@router.get("/discord-oauth")
+@router.get("/discord-oauth/{code}")
 async def discord_oauth(code: str):
     token, refresh_token = await discord.get_access_token(code)
     return {"access_token": token, "refresh_token": refresh_token}
@@ -48,7 +48,7 @@ async def update_user(discord_id: str, user: User = Depends(discord.user)):
             email=user.email,
             username=user.username,
             avatar=user.avatar_url,
-            is_admin=is_admin(int(user.id)),
+            # is_admin=is_admin(int(user.id)),
         ).where(Users.discord_id==user.id)
         query.execute()
         return "oke"

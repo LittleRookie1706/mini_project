@@ -1,5 +1,12 @@
+import sys  
+from pathlib import Path  
+file = Path(__file__). resolve()  
+package_root_directory = file.parents[3] 
+sys.path.append(str(package_root_directory)) 
+print(package_root_directory)
+
 def create_sample_tags():
-    from ....apps.news.models import Tags
+    from apps.news.models import Tags
 
     list_tags=[
         ("Khoa học",), ("Lịch sử",), ("Địa lí",), ("Sinh học",),
@@ -26,8 +33,8 @@ def create_sample_news():
 sample_data=[
     ("tags", create_sample_tags()),
     ("users", create_sample_users()),
-    # ("comments", create_sample_comments()),
-    # ("news", create_sample_news()),
+    ("comments", create_sample_comments()),
+    ("news", create_sample_news()),
 ]
 
 def create_sample_data(data_tables: list):
@@ -38,6 +45,6 @@ def create_sample_data(data_tables: list):
 
 create_sample_data([
     "tags",
-    # "users",
+    "users",
 ])
 

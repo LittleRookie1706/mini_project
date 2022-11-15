@@ -3,7 +3,7 @@ from peewee import IntegerField, TextField
 from database.postgres.peewee.sync import PeeweeModel
 
 class Tags(PeeweeModel):
-    id = IntegerField()
+    id = IntegerField(primary_key=True)
     name = TextField()
 
     class Meta:

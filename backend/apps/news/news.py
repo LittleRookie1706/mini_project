@@ -1,15 +1,8 @@
-# default
-from typing import List
-
-# fastapi
-from fastapi import Depends
-
 # local
 from . import router
-# from .schemas import News
+from .models import News
 
+@router.get("/news")
+async def get_news():
+    return News.select().count()
 
-# # news_title: str, 
-# @router.get("/news", response_model=List[News])
-# async def post_content():
-#     pass

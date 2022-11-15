@@ -1,10 +1,10 @@
 # default
-from typing import List
+from typing import Optional, List
 import datetime, pytz
 
 # sql module
 from sqlmodel import SQLModel, Field, Relationship
-from ..authentication import Users
+from .tags import Tags
 
 def vn_now():
     utc_now = pytz.utc.localize(datetime.datetime.utcnow())
@@ -13,28 +13,27 @@ def vn_now():
     
     return now
 
-
-class Tags(SQLModel, table=True):
+class News_Tags_Through(SQLModel, table=True):
     id: int = Field(primary_key=True)
+    news_id: Optional[int] = Field(default=None, foreign_key="news.id")
+    tags_id: Optional[int] = Field(default=None, foreign_key="tags.id")
 
-    name: str = Field()
 
 
 class News(SQLModel, table=True):
     id: int = Field(primary_key=True)
-
     view: int = Field(default=0)
     rating: int = Field(default=0)
     description: str = Field()
     keywords: str = Field()
-    og_img: str = Field(default="")
+    og_img: str = Field(nullable=True)
     title: str = Field()
     content: str = Field()
     created_at: datetime.datetime = Field(default=vn_now())
-    created_by: Users = Relationship()
+    created_by_id: Optional[int] = Field(default=None, foreign_key="users.id")
     updated_at: datetime.datetime = Field(default=vn_now())
-    updated_by: Users = Relationship()
-    thumbnail_img: str = Field(default="")
+    updated_by_id: Optional[int] = Field(default=None, foreign_key="users.id")
+    thumbnail_img: str = Field()
     banner_img: str = Field(nullable=True)
     is_slideshow: bool = Field(default=False)
-    tag: List["Tags"] = Relationship()
+    tags: List["Tags"] = Relationship(back_populates="tags.id")

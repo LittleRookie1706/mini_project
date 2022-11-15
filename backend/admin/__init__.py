@@ -5,3 +5,5 @@ router = APIRouter(
     tags=["Admin"],
     responses={404: {"description": "Not found"}},
 )
+
+from .news import *
