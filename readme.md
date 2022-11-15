@@ -31,7 +31,16 @@ Stop project: down
 Create super user: createsuperuser + email
 ### Backend
 Backend commands: Docker & database migration
-    Docker: be + docker + ( up | down | build | buildup | resetmigrations )
+    Docker: be + docker + ( up | down | build | buildup )
+    Migration: be + db + ( 
+        migrate: migrate database
+        downgrate: downgrade 
+        makemigrations: make migrations
+        resetmigrations: delete all migrations and create new one
+        sampledata: create sample data
+    )
+    *After ``migrate`` you must ``makemigrations`` if you want to migrate next one
+
 ### Frontend
 Frontend commands: 
     fe + docker( up | down | build | buildup )
