@@ -5,11 +5,14 @@
 
 ## Port
 ```bash
-8000: web
+# 80: nginx
+# 81: nginx proxy manager
+3000: frontend
+8000: backend
 5050: pgadmin
 5432: postgres
 6379: redis
-7070: meilisearch
+7700: meilisearch
 ```
 
 ## Pgadmin
@@ -29,6 +32,7 @@ Register server:
 Run project: up
 Stop project: down
 Create super user: createsuperuser + email
+
 ### Backend
 Backend commands: Docker & database migration
     Docker: be + docker + ( up | down | build | buildup )
@@ -44,6 +48,7 @@ Backend commands: Docker & database migration
 ### Frontend
 Frontend commands: 
     fe + docker( up | down | build | buildup )
+
 ### Other module
 See all active ports: active-port
 Kill a port: kill + port_number
