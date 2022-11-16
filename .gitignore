@@ -162,3 +162,6 @@ env
 env/*
 .vscode/*
 .vscode
+
+web_services
+web_services/*

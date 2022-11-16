@@ -5,27 +5,29 @@
 
 ## Port
 ```bash
-# 80: nginx
-# 81: nginx proxy manager
-3000: frontend
-8000: backend
-5050: pgadmin
-5432: postgres
-6379: redis
-7700: meilisearch
+# Web services:
+    # 80: nginx: Reverse proxy
+    81: nginx proxy manager: Reverse proxy with friendly interface
+    3001: uptime kuma: Watching run time of services
+
+# Frontend
+    3000: frontend : Vue.js 
+
+# Backend
+    8000: backend : FastAPI 
+    5050: pgadmin : Manage and visualize database 
+        Default user: pgadmin4@pgadmin.org
+        Default password: admin
+
+        Register server: 
+            -host: db
+            -username: postgres
+            -password: postgres
+# Databasee
+    5432: postgres : SQL database
+    6379: redis : Cache
+    7700: meilisearch : Fast search engine
 ```
-
-## Pgadmin
-```bash
-Default user: pgadmin4@pgadmin.org
-Default password: admin
-
-Register server: 
-    -host: db
-    -username: postgres
-    -password: postgres
-```
-
 ## Bash script: ./run.sh + command
 ```bash
 ### Project
@@ -50,6 +52,7 @@ Frontend commands:
     fe + docker( up | down | build | buildup )
 
 ### Other module
+# Install services: install + service_name
 See all active ports: active-port
 Kill a port: kill + port_number
 

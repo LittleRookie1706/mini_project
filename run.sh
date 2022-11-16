@@ -14,6 +14,9 @@ endcolor="\e[0m"
 # eval "cd ~$link"
 # eval "cd ~/Documents/otani_proj"
 
+# docker_alias = []
+# docker_command = []
+
 ##### INPUT
 
 args=("$@")
@@ -21,20 +24,22 @@ args=("$@")
 ### This is for all project
 if [[ ${args[0]} == "up" ]]; then
     echo "Starting docker..."
+    output=$(eval "docker compose up -d")
+    echo "$output"
     eval "cd backend"
     output=$(eval "docker compose up -d")
     echo "$output"
-    eval "cd .."
-    eval "cd frontend"
+    eval "cd ..${linebreak}cd frontend"
     output=$(eval "docker compose up -d")
 
 elif [[ ${args[0]} == "down" ]]; then
     echo "Stopping docker..."
+    output=$(eval "docker compose down")
+    echo "$output"
     eval "cd backend"
     output=$(eval "docker compose down")
     echo "$output"
-    eval "cd .."
-    eval "cd frontend"
+    eval "cd ..${linebreak}cd frontend"
     output=$(eval "docker compose down")
 
 elif [[ ${args[0]} == "createsuperuser" ]]; then
@@ -71,7 +76,7 @@ elif [[ ${args[0]} == "be" ]]; then
         elif [[ ${args[2]} == "buildup" ]]; then
             output=$(eval "sudo docker compose up -d --build")
         else
-            output="unknow command '${args[2]}'"
+            output="Unknow command '${args[2]}'"
             color="$red"
         fi
 
@@ -94,12 +99,12 @@ elif [[ ${args[0]} == "be" ]]; then
             output="Done"
             color="$green"
         else
-            output="unknow command '${args[2]}'"
+            output="Unknow command '${args[2]}'"
             color="$red"
         fi
 
     else
-        output="unknow command '${args[1]}'"
+        output="Unknow command '${args[1]}'"
         color="$red"
     fi
 
@@ -118,20 +123,40 @@ elif [[ ${args[0]} == "fe" ]]; then
         elif [[ ${args[2]} == "buildup" ]]; then
             output=$(eval "sudo docker compose up -d --build")
         else
-            output="unknow command '${args[2]}'"
+            output="Unknow command '${args[2]}'"
             color="$red"
         fi
     fi
 
 ### This is for install tools
-# elif [[ ${args[0]} == "install" ]]; then
-#     if [[ ${args[1]} == "docker" ]]; then
-#     elif [[ ${args[1]} == "poetry" ]]; then
-#     elif [[ ${args[1]} == "vue" ]]; then
-#     elif [[ ${args[1]} == "python" ]]; then
-#     elif [[ ${args[1]} == "redis" ]]; then
-#     elif [[ ${args[1]} == "" ]]; then
-#     fi
+elif [[ ${args[0]} == "install" ]]; then
+    if [[ ${args[1]} == "docker" ]]; then
+        echo $(eval "sudo apt-get update 
+            ${linebreak}sudo apt-get install \
+            ca-certificates \
+            curl \
+            gnupg \
+            lsb-release 
+            ${linebreak}sudo mkdir -p /etc/apt/keyrings
+            ${linebreak}curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+            ${linebreak}echo \
+                "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+                $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+            ${linebreak}sudo apt-get update
+            ${linebreak}sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+        ")
+        output="Install docker success"
+        color="$green"
+    # elif [[ ${args[1]} == "python" ]]; then
+    # elif [[ ${args[1]} == "npm" ]]; then
+    # elif [[ ${args[1]} == "poetry" ]]; then
+    # elif [[ ${args[1]} == "vue" ]]; then
+    # elif [[ ${args[1]} == "redis" ]]; then
+    # elif [[ ${args[1]} == "kubernetes" ]]; then
+    else
+        output="Unknow service '${args[0]}'"
+        color="$red"
+    fi
 
 ### This is for other tools/modules
 
@@ -150,7 +175,7 @@ elif [[ ${args[0]} == "kill" ]]; then
     fi
 
 else
-    output="unknow command '${args[0]}'"
+    output="Unknow command '${args[0]}'"
     color="$red"
 fi
 

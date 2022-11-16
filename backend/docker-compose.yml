@@ -29,6 +29,7 @@ services:
       environment:
         - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
         - PGADMIN_DEFAULT_PASSWORD=admin
+        # - PG_ADMIN_PORT=5050
       ports:
         - "5050:80"
       depends_on:
@@ -62,7 +63,7 @@ services:
 
   backend:
     build: .
-    # command: gunicorn -w 1 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000 --reload
+    # command: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000 --reload
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
       - .:/code
