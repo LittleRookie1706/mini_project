@@ -5,25 +5,25 @@
 
 ## Port
 ```bash
-# Web services:
+### Web services:
     # 80: nginx: Reverse proxy
     81: nginx proxy manager: Reverse proxy with friendly interface
     3001: uptime kuma: Watching run time of services
 
-# Frontend
+### Frontend
     3000: frontend : Vue.js 
 
-# Backend
+### Backend
     8000: backend : FastAPI 
     5050: pgadmin : Manage and visualize database 
         Default user: pgadmin4@pgadmin.org
         Default password: admin
-
         Register server: 
             -host: db
             -username: postgres
             -password: postgres
-# Databasee
+
+### Databasee
     5432: postgres : SQL database
     6379: redis : Cache
     7700: meilisearch : Fast search engine

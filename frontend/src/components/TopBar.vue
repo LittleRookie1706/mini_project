@@ -35,19 +35,24 @@
 
         <v-spacer></v-spacer>
 
-        <v-avatar id="avatar-dropdown" :image="currentUser.avatar"></v-avatar>
-        <v-menu activator="#avatar-dropdown">
-            <!-- <v-list>
-                <v-list-item
-                v-for="(item, index) in items"
-                :key="index"
-                :value="index"
-                >
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item>
-            </v-list> -->
-            <v-list :items="items"></v-list>
-        </v-menu>
+        <div v-if="logged_in">
+            <v-avatar id="avatar-dropdown" :image="currentUser.avatar"></v-avatar>
+            <v-menu activator="#avatar-dropdown" transition="fab-transition">
+                <!-- <v-list>
+                    <v-list-item
+                    v-for="(item, index) in items"
+                    :key="index"
+                    :value="index"
+                    >
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item>
+                </v-list> -->
+                <v-list :items="items"></v-list>
+            </v-menu>
+        </div>
+        <div v-else>
+            <a :href="loginURL" id="login-url">Login</a>
+        </div>
 
     </v-app-bar>
 
@@ -56,11 +61,13 @@
 <script setup lang="ts">
     import { ref, defineProps, onBeforeMount } from 'vue';
 
-    const props = defineProps({ baseURL: String })
+    const props = defineProps({ baseURL: String, loginURL: String  })
     var currentUser = ref({})
+    var logged_in = ref(true)
     const items=ref([])
 
     const accessToken = 'gOQ8wdVSmMxnvv72av0PVYmmjZWkJh'
+    // gOQ8wdVSmMxnvv72av0PVYmmjZWkJh
 
     const myHeaders = new Headers({
         'Authorization': `Bearer ${accessToken}`,
@@ -73,7 +80,11 @@
         {   method: 'GET', 
             headers: myHeaders
         });
-        if (!response.ok) {throw new Error(`An error has occured: ${response.status}`)}
+        if (!response.ok) {
+            logged_in.value = false
+            return {}
+            // throw new Error(`An error has occured: ${response.status}`)
+        }
         const user = await response.json()
         return user
     }
@@ -111,6 +122,10 @@
 </script>
 
 <style>
+    .v-field{
+        color: #fff;
+        background-color: #1c1f2f;
+    }
     .v-toolbar-title__placeholder{
         color: #fff;
         font-family: fira sans,sans-serif;
@@ -121,5 +136,12 @@
     }
     #avatar-dropdown{
         cursor: pointer;
+    }
+    #login-url{
+        font-family: fira sans,sans-serif;
+        font-weight: 700;
+        color: #fff;
+        text-decoration: none;
+        margin-right: 25px;
     }
 </style>
