@@ -165,3 +165,5 @@ env/*
 
 web_services
 web_services/*
+
+test__*.py
