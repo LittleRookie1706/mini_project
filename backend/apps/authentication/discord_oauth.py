@@ -5,25 +5,15 @@ from fastapi.responses import JSONResponse
 #discord
 from fastapi_discord import User, DiscordOAuthClient
 
-
 #local
 from . import router
-
 from all_env import CLIENT_ID, CLIENT_SECRET, REDIRECT_URL
 from .models import Users
-
-admin_ids=[880359404036317215]
 
 discord = DiscordOAuthClient(
     CLIENT_ID, CLIENT_SECRET, REDIRECT_URL, 
     ("identify", "guilds", "email")
 )  # scopes
-
-def is_admin(user_id: int) -> bool:
-    if user_id in admin_ids:
-        return True
-    else:
-        return False
 
 # start
 @router.on_event("startup")
@@ -36,9 +26,9 @@ async def discord_oauth(code: str):
     token, refresh_token = await discord.get_access_token(code)
     return {"access_token": token, "refresh_token": refresh_token}
 
-@router.get("/get-user", dependencies=[Depends(discord.requires_authorization)])
-async def get_user(user: User = Depends(discord.user)):
-    user = Users.get(discord_id=user.id).__data__
+@router.get("/get-user/", dependencies=[Depends(discord.requires_authorization)])
+async def get_user(discord_user: User = Depends(discord.user)):
+    user = Users.get(discord_id=discord_user.id).__data__
     return user
 
 @router.patch("/discord-users/{discord_id}", dependencies=[Depends(discord.requires_authorization)])

@@ -15,6 +15,9 @@ def create_sample_tags():
     ]
     Tags.insert_many(list_tags, fields=[Tags.name]).execute()
 
+def create_sample_tag_groups():
+    pass
+
 def create_sample_users():
     from apps.authentication.models import Users
 
@@ -32,6 +35,7 @@ def create_sample_news():
 
 sample_data=[
     ("tags", create_sample_tags()),
+    ("taggroup", create_sample_tag_groups()),
     ("users", create_sample_users()),
     ("comments", create_sample_comments()),
     ("news", create_sample_news()),
@@ -44,7 +48,10 @@ def create_sample_data(data_tables: list):
 
 
 create_sample_data([
-    "tags",
-    "users",
+    # "tags",
+    # "taggroup",
+    # "users",
+    # "comments",
+    "news",
 ])
 
