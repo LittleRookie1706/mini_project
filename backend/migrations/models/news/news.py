@@ -27,7 +27,7 @@ class News(SQLModel, table=True):
     description: str = Field()
     keywords: str = Field()
     og_img: str = Field(nullable=True)
-    title: str = Field()
+    title: str = Field(unique=True)
     content: str = Field()
     created_at: datetime.datetime = Field(default=vn_now())
     created_by_id: Optional[int] = Field(default=None, foreign_key="users.id")

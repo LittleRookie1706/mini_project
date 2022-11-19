@@ -1,15 +1,13 @@
-from peewee import IntegerField, TextField, ForeignKeyField
+from peewee import IntegerField, TextField
 
 from database.postgres.peewee.sync import PeeweeModel
-from .taggroups import TagGroups
 
-class Tags(PeeweeModel):
+class TagGroups(PeeweeModel):
     id = IntegerField(primary_key=True)
     name = TextField(unique=True)
-    tag_group = ForeignKeyField(TagGroups, backref="tags")
 
     class Meta:
-        db_table = 'tags'
+        db_table = 'taggroups'
 
     @classmethod
     def get_list(cls):
