@@ -1,7 +1,5 @@
 <template>
-  <v-container 
-  
-  >
+  <v-container>
     <v-expansion-panels v-model="panel" multiple>
 
       <v-expansion-panel class="rounded-lg">

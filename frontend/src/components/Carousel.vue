@@ -7,41 +7,45 @@
 >  
     <v-carousel 
       cycle
-      :show-arrows="false" 
+      show-arrows-on-hover
       class="rounded-xl"
     >
       <v-carousel-item
-        v-for="(item,i) in items"
-        :key="i"
-        :src="item.src"
+        v-for="news in slideshowList"
+        :key="news.id"
+        :src="news.banner_img"
+        :href="news.id"
         fit
-      ></v-carousel-item>
+        class="d-flex align-center justify-center"
+      >
+        <div :href="news.id" class="d-flex align-center justify-center">
+          <h2 class="slideshow-title ma-5">
+            {{ news.title }} 
+          </h2>
+        </div>
+
+      </v-carousel-item>
     </v-carousel>
 </v-container>
 
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { defineProps } from 'vue';
 
-  const items = ref([
-        {
-          src: 'https://e.khoahoc.tv/photos/image/2022/11/08/Gaia-BH1-black-hole-650-size-650x340-znd.jpg',
-        },
-        {
-          src: 'https://e.khoahoc.tv/photos/image/2022/11/08/kiem-thien-thach-650-size-650x340-znd.jpg',
-        },
-        {
-          src: 'https://e.khoahoc.tv/photos/image/2022/11/08/Gaia-BH1-black-hole-650-size-650x340-znd.jpg',
-        },
-        {
-          src: 'https://e.khoahoc.tv/photos/image/2022/11/08/kiem-thien-thach-650-size-650x340-znd.jpg',
-        },
-      ])
+  const props = defineProps({ slideshowList: Array })
 
 </script>
 
 
 <style>
-
+  .slideshow-title{
+    width: 60%;
+    white-space: normal;
+    background: #fff;
+    opacity: 0.75;
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+  }
 </style>
