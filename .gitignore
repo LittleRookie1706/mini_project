@@ -167,3 +167,5 @@ web_services
 web_services/*
 
 test__*.py
+store_file/*
+store_file

@@ -1,0 +1,46 @@
+[
+    {
+        "name": "Khoa học",
+        "tag_group": 1
+    },
+    {
+        "name": "Lịch sử",
+        "tag_group": 1
+    },
+    {
+        "name": "Địa lí",
+        "tag_group": 1
+    },
+    {
+        "name": "Sinh học",
+        "tag_group": 1
+    },
+    {
+        "name": "10 vạn cau hỏi vì sao",
+        "tag_group": 2
+    },
+    {
+        "name": "Sự thật thú vị",
+        "tag_group": 2
+    },
+    {
+        "name": "1001 bí ẩn",
+        "tag_group": 2
+    },
+    {
+        "name": "Danh nhân thế  giới",
+        "tag_group": 2
+    },
+    {
+        "name": "thế giới động vật",
+        "tag_group": 2
+    },
+    {
+        "name": "Y học-sức khỏe",
+        "tag_group": 3
+    },
+    {
+        "name": "Kiến trúc độc đáo",
+        "tag_group": null
+    }
+]
