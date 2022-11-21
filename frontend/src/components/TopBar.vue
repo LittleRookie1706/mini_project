@@ -9,7 +9,7 @@
     >
 
         <v-img
-            class="mx-2"
+            class="ml-2"
             :src="require('../assets/images/logo3.png')"
             max-height="45"
             max-width="45"
@@ -126,14 +126,21 @@
         color: #fff;
         background-color: #1c1f2f;
     }
+
+    .v-toolbar-title{
+        margin-left: 0px;
+    }
+
     .v-toolbar-title__placeholder{
         color: #fff;
         font-family: fira sans,sans-serif;
         font-weight: 900;
     }
+
     .v-avatar{
         margin-right: 15px;
     }
+
     #avatar-dropdown{
         cursor: pointer;
     }
@@ -144,4 +151,5 @@
         text-decoration: none;
         margin-right: 25px;
     }
+
 </style>
