@@ -18,7 +18,7 @@
         fit
         class="d-flex align-center justify-center"
       >
-        <div :href="news.id" class="d-flex align-center justify-center">
+        <div class="d-flex align-center justify-center">
           <h2 class="slideshow-title ma-5">
             {{ news.title }} 
           </h2>
