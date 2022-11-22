@@ -4,11 +4,10 @@ from fastapi.responses import JSONResponse
 
 #local
 from . import router
-from apps.authentication.discord_oauth import discord
+from user.authentication.discord_oauth import discord
 from fastapi_discord import User
-from apps.authentication.models import Users
-from apps.news.models import News, Tags, vn_now
-from apps.news.schemas import NewsSchema
+from models import Users, News, Tags, vn_now
+from user.news.schemas import NewsSchema
 
 def is_slideshow(banner_img):
     if banner_img in ["", None]:

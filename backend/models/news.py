@@ -4,8 +4,8 @@ import datetime, pytz
 from peewee import CharField, IntegerField, DateTimeField, ForeignKeyField, BooleanField, ManyToManyField
 from database.postgres.peewee.sync import PeeweeModel
 
-from apps.news.models import Tags
-from apps.authentication.models import Users
+from .tags import Tags
+from .users import Users
 
 
 def vn_now():
