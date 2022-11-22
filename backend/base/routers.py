@@ -1,7 +1,7 @@
 from .settings import app
 from .exeption_handle import *
 from .event_handle import *
-from apps import (
+from user import (
     authentication, 
     news
 )
