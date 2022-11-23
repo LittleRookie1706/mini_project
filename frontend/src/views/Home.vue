@@ -34,16 +34,22 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, defineAsyncComponent, onBeforeMount } from 'vue';
+  // vue
+  import { ref, defineAsyncComponent, onBeforeMount } from 'vue'
   import { useRoute } from 'vue-router'
 
-  import News from '../types/News';
-  const TopBar = defineAsyncComponent(() => import("../components/TopBar.vue"));
-  const Carousel = defineAsyncComponent(() => import("../components/Carousel.vue"));
-  const TagGroup = defineAsyncComponent(() => import("../components/TagGroup.vue"));
-  const NewsCard = defineAsyncComponent(() => import("../components/NewsCard.vue"));
-  const NewsGroup = defineAsyncComponent(() => import("../components/NewsGroup.vue"));
-  import Footer from '../components/Footer.vue';
+  // typescript
+  import MinimumNews from '@/types/MinimumNews'
+  import Tags from '@/types/Tags'
+  import TagGroups from '@/types/TagGroups'
+
+  // components
+  const TopBar = defineAsyncComponent(() => import("@/components/TopBar.vue"))
+  const Carousel = defineAsyncComponent(() => import("@/components/Carousel.vue"))
+  const TagGroup = defineAsyncComponent(() => import("@/components/TagGroup.vue"))
+  const NewsCard = defineAsyncComponent(() => import("@/components/NewsCard.vue"))
+  const NewsGroup = defineAsyncComponent(() => import("@/components/NewsGroup.vue"))
+  const Footer = defineAsyncComponent(() => import("@/components/Footer.vue"))
 
 
   const baseURL = ref("http://localhost:8000");
@@ -52,20 +58,20 @@
 
   let pageNumber = parseInt(route.params.pageNumber)
 
-  const newsList = ref<News[]>([])
-  const slideshowList = ref<News[]>([])
-  const mostViewList = ref<News[]>([])
-  const tagsList = ref([])
+  const newsList = ref<MinimumNews[]>([])
+  const slideshowList = ref<MinimumNews[]>([])
+  const mostViewList = ref<MinimumNews[]>([])
+  const tagsList = ref<Tags[]>([])
   const tagGroups = ref({})
 
-  async function fetchGetSlideshow(pageNumber) {
+  async function fetchGetSlideshow(pageNumber: number) {
     const response = await fetch(`${baseURL.value}/news?page_number=${pageNumber}&is_slideshow=true`);
     if (!response.ok) {return []}
     const result = await response.json()
     return result
   }
 
-  async function fetchGetNewsList(pageNumber) {
+  async function fetchGetNewsList(pageNumber: number) {
     const response = await fetch(`${baseURL.value}/news?page_number=${pageNumber}`);
     if (!response.ok) {return []}
     const result = await response.json()
@@ -87,26 +93,29 @@
   }
 
   onBeforeMount(async () =>{
-    
-    console.log(route)
     if(!pageNumber){pageNumber=1}
+    
     // fetch
-    slideshowList.value = await fetchGetSlideshow(pageNumber)
-    newsList.value = await fetchGetNewsList(pageNumber)
-    mostViewList.value = await fetchGetMostView()
-    tagsList.value = await fetchGetTags()
-    // const slideshowPromise = fetchGetSlideshow()
-    // const newsPromise = fetchGetNews()
-    // const mostViewPromise = fetchGetMostView()
-    // const tagsPromise = fetchGetTags()
+    // slideshowList.value = await fetchGetSlideshow(pageNumber)
+    // newsList.value = await fetchGetNewsList(pageNumber)
+    // mostViewList.value = await fetchGetMostView()
+    // tagsList.value = await fetchGetTags()
+    const slideshowPromise = fetchGetSlideshow(pageNumber)
+    const newsPromise = fetchGetNewsList(pageNumber)
+    const mostViewPromise = fetchGetMostView()
+    const tagsPromise = fetchGetTags()
 
-    // async handle
-    // slideshowList.value, newsList.value, mostViewList.value, tagsList.value = await Promise.all([
+    // // async handle
+    // [slideshowList.value, newsList.value, mostViewList.value, tagsList.value] = await Promise.all([
     //   slideshowPromise,
     //   newsPromise,
     //   mostViewPromise,
-    //   tagsPromise
+    //   tagsPromise,
     // ])
+    slideshowList.value = await slideshowPromise
+    newsList.value = await newsPromise
+    mostViewList.value = await mostViewPromise
+    tagsList.value = await tagsPromise
 
     // process data
     for(var i in tagsList.value){

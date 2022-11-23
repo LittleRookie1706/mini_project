@@ -1,14 +1,14 @@
 <template>
     <v-app>
         <TopBar :baseURL="baseURL" :loginURL="loginURL" />
-        <v-main>
+        <v-main v-if="news.content">
             <v-container class="d-flex justify-center mt-16">
 
                 <div class="w3-large">
                     <!-- Content container -->
                     <div class="w3-container" id="about">
                         <div class="w3-content" style="max-width:800px">
-                            <span v-html="News.content"></span>
+                            <span v-html="news.content"></span>
                         </div>
                     </div>
 
@@ -136,21 +136,24 @@
 </template>
 
 <script setup lang="ts">
-// vue
+    // vue
     import { ref, defineAsyncComponent, onBeforeMount, watch  } from 'vue'
     import { useRoute } from 'vue-router'
-// components
-    const TopBar = defineAsyncComponent(() => import("../components/TopBar.vue"))
-    import Footer from '../components/Footer.vue'
-// style
+
+    // types
+    import News from '@/types/News'
+
+    // components
+    const TopBar = defineAsyncComponent(() => import("@/components/TopBar.vue"))
+    import Footer from '@/components/Footer.vue'
 
     const baseURL = ref("http://localhost:8000");
     const loginURL = ref("https://discord.com/api/oauth2/authorize?client_id=937351409198829681&redirect_uri=http%3A%2F%2F127.0.0.1%3A8080%2Fdiscord_oauth&response_type=code&scope=identify%20email%20connections%20guilds%20guilds.members.read");
     const route = useRoute()
     
-    const News = ref({})
+    const news = ref<News>({})
 
-    async function fetchGetNews(newsId) {
+    async function fetchGetNews(newsId: number) {
         const response = await fetch(`${baseURL.value}/news/${newsId}`);
         if (!response.ok) {return {}}
         const result = await response.json()
@@ -158,8 +161,8 @@
     }
 
     onBeforeMount(async () =>{
-        News.value = await fetchGetNews(route.params.newsId)
-        console.log(News.value)
+        news.value = await fetchGetNews(route.params.newsId)
+        console.log(news.value)
     })
     
 

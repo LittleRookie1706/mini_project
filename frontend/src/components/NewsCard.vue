@@ -1,10 +1,11 @@
 <template>
-    <router-link  :to="{ name:'newspost', params: { newsId: news.id }}">
-        <v-card
-            max-width="1000"
-            class="mt-5 mx-auto elevation-7"
-            :id="news.id" 
-        >
+    
+    <v-card
+        max-width="1000"
+        class="mt-5 mx-auto elevation-7"
+        :id="news.id" 
+    >
+        <router-link  :to="{ name:'newspost', params: { newsId: news.id }}">
             <v-row dense>
                 <v-col cols="12">
                     <v-card class="rounded-lg">
@@ -40,12 +41,14 @@
                     </v-card>
                 </v-col>
             </v-row>
-        </v-card>
-    </router-link>
+        </router-link>
+    </v-card>
+
+    
 </template>
 
 <script setup lang="ts">
-    import { defineProps} from 'vue';
+    import { defineProps } from 'vue';
     // import News from '../types/News';
 
     // const props = defineProps = ({

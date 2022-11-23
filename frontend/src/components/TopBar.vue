@@ -91,15 +91,15 @@
 
     function setAvatarDropdownFields() {
         var avatarDropdownFields = [
-            { title: 'Settings' },
-            { title: 'Favourite' },
-            { title: 'Logout' },
+            { type: 'item', title: 'Settings' },
+            { type: 'item', title: 'Favourite' },
+            { type: 'item', title: 'Logout' },
         ]
 
         if(currentUser.value.is_admin){
             const avatarDropdownAdminFields=[
                 { type: 'subheader', title: 'Admin' },
-                {title: 'Manage page'},
+                { type: 'item', title: 'Manage page', props: { href: 'admin/manage-content' } },
                 { type: 'divider' },
                 { type: 'subheader', title: 'User' },
             ]
@@ -109,7 +109,6 @@
         return avatarDropdownFields
     }
 
-    
     onBeforeMount(async () => {
 
         currentUser.value = await fetchGetUser()

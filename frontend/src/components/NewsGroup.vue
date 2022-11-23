@@ -12,6 +12,7 @@
             :hide-actions="true"
             disable-icon-rotate
             class="d-flex justify-center align-center"
+            disabled
             >
                 <h3>Xem nhiều nhất</h3>  
             </v-expansion-panel-title>
