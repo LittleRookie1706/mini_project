@@ -21,7 +21,7 @@ async def on_startup():
     await discord.init()
 
 
-@router.get("/{code}/")
+@router.get("/login/{code}/")
 async def discord_oauth(code: str):
     token, refresh_token = await discord.get_access_token(code)
     return {"access_token": token, "refresh_token": refresh_token}
