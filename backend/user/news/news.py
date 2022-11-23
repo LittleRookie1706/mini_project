@@ -3,6 +3,7 @@ from typing import Optional
 
 # fastapi
 from fastapi import HTTPException
+from fastapi_redis_cache import cache
 
 # local
 from . import router
