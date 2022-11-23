@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
-import Home from '../views/App.vue'
-import Abc from '../views/Abc.vue'
+import Home from '../views/Home.vue'
+import NewsPost from '../views/NewsPost.vue'
 
 const routes: Array<RouteRecordRaw> = [
-  { path: '/', component: Home } ,
-  { path: '/abc', component: Abc } ,
+  { path: '/', name: 'home', component: Home } ,
+  { path: '/page/:pageNumber', name: 'page', component: Home } ,
+  { path: '/:newsId', name: 'newspost', component: NewsPost } ,
 ]
 
 const router = createRouter({

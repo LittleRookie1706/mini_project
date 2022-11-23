@@ -48,19 +48,19 @@ class News(PeeweeModel):
     def get_by_page(cls, page: int):
         start_point = (page-1) * 20
         end_point = page * 20
-        query = cls.select().order_by(News.id.desc()).dicts()
+        query = cls.select(News.id, News.view, News.rating, News.description, News.title, News.thumbnail_img).order_by(News.id.desc()).dicts()
         return list(query[start_point:end_point])
 
     @classmethod
     def get_most_view(cls, num: int):
-        query = cls.select().order_by(News.view.desc(), News.id.desc()).limit(num).dicts()
+        query = cls.select(News.id, News.view, News.rating, News.description, News.title, News.thumbnail_img).order_by(News.view.desc(), News.id.desc()).limit(num).dicts()
         return list(query)
 
     @classmethod
     def get_slideshow_by_page(cls, page: int):
         start_point = (page-1) * 4
         end_point = page * 4
-        query = cls.select().where(News.is_slideshow == True).order_by(News.id.desc()).dicts()
+        query = cls.select(News.id, News.description, News.title, News.banner_img).where(News.is_slideshow == True).order_by(News.id.desc()).dicts()
         return list(query[start_point:end_point])
 
 

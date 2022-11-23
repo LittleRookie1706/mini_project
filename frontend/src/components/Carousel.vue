@@ -1,30 +1,27 @@
 <template>
 
 <v-container
-  class="mt-10"
-  style="max-width:980px;"
-
+  style="max-width:955px; padding: 0px;"
 >  
     <v-carousel 
       cycle
       show-arrows-on-hover
       class="rounded-xl"
     >
-      <v-carousel-item
-        v-for="news in slideshowList"
-        :key="news.id"
-        :src="news.banner_img"
-        :href="news.id"
-        fit
-        class="d-flex align-center justify-center"
-      >
-        <div class="d-flex align-center justify-center">
-          <h2 class="slideshow-title ma-5">
-            {{ news.title }} 
-          </h2>
-        </div>
+      <router-link v-for="news in slideshowList" :key="news.id" :to="{ name:'newspost', params: { newsId: news.id }}">
+        <v-carousel-item
+          :src="news.banner_img"
+          fit
+          class="d-flex align-center justify-center"
+        >
+          <div class="d-flex align-center justify-center">
+            <h2 class="slideshow-title ma-5">
+              {{ news.title }} 
+            </h2>
+          </div>
 
-      </v-carousel-item>
+        </v-carousel-item>
+      </router-link>
     </v-carousel>
 </v-container>
 

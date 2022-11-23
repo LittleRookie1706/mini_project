@@ -76,7 +76,7 @@
 
 
     async function fetchGetUser() {
-        const response = await fetch(`${props.baseURL}/get-user`,
+        const response = await fetch(`${props.baseURL}/users/self/`,
         {   method: 'GET', 
             headers: myHeaders
         });
