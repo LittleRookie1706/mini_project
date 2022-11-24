@@ -1,6 +1,8 @@
 # default
 import datetime, pytz
 
+from fastapi import HTTPException
+
 from peewee import CharField, IntegerField, DateTimeField, ForeignKeyField, BooleanField, ManyToManyField
 from database.postgres.peewee.sync import PeeweeModel
 
@@ -63,6 +65,10 @@ class News(PeeweeModel):
         query = cls.select(News.id, News.view, News.rating, News.description, News.title, News.thumbnail_img, News.banner_img, News.is_slideshow).where(News.is_slideshow == True).order_by(News.id.desc()).dicts()
         return list(query[start_point:end_point])
 
+    @classmethod
+    def get_tags(cls, news_id: int):
+        news_tags = NewsTags.select(Tags.id, Tags.name).join(Tags).where(NewsTags.news_id==news_id).dicts()
+        return list(news_tags)
 
-# NewsTags = News.tags.get_through_model()
+NewsTags = News.tags.get_through_model()
 # db.create_tables([NewsTags])

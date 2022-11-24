@@ -99,7 +99,7 @@
         if(currentUser.value.is_admin){
             const avatarDropdownAdminFields=[
                 { type: 'subheader', title: 'Admin' },
-                { type: 'item', title: 'Manage page', props: { href: 'admin/manage-content' } },
+                { type: 'item', title: 'Manage page', props: { href: '/admin/manage-content' } },
                 { type: 'divider' },
                 { type: 'subheader', title: 'User' },
             ]
