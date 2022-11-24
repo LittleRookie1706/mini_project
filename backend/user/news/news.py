@@ -3,7 +3,7 @@ from typing import Optional
 
 # fastapi
 from fastapi import HTTPException
-from fastapi_redis_cache import cache
+from fastapi_cache.decorator import cache
 
 # local
 from . import router
@@ -11,6 +11,7 @@ from models import News
     
     
 @router.get("/news/")
+@cache(expire=3600)
 async def get_news_by_page_number(page_number: Optional[int] = None, is_slideshow: Optional[bool] = None, order_by_view: Optional[bool] = None):
     if order_by_view:
         return News.get_most_view(10)
@@ -23,6 +24,7 @@ async def get_news_by_page_number(page_number: Optional[int] = None, is_slidesho
 
 
 @router.get("/news/{news_id}/")
+@cache(expire=3600)
 async def get_news_by_page_number(news_id: int):
     news = News.get_or_none(id=news_id)
     if news:

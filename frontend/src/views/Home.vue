@@ -96,22 +96,10 @@
     if(!pageNumber){pageNumber=1}
     
     // fetch
-    // slideshowList.value = await fetchGetSlideshow(pageNumber)
-    // newsList.value = await fetchGetNewsList(pageNumber)
-    // mostViewList.value = await fetchGetMostView()
-    // tagsList.value = await fetchGetTags()
     const slideshowPromise = fetchGetSlideshow(pageNumber)
     const newsPromise = fetchGetNewsList(pageNumber)
     const mostViewPromise = fetchGetMostView()
     const tagsPromise = fetchGetTags()
-
-    // // async handle
-    // [slideshowList.value, newsList.value, mostViewList.value, tagsList.value] = await Promise.all([
-    //   slideshowPromise,
-    //   newsPromise,
-    //   mostViewPromise,
-    //   tagsPromise,
-    // ])
     slideshowList.value = await slideshowPromise
     newsList.value = await newsPromise
     mostViewList.value = await mostViewPromise

@@ -1,7 +1,7 @@
 from fastapi.responses import JSONResponse
-from .settings import app
 from fastapi_discord import RateLimited, Unauthorized
 from fastapi_discord.exceptions import ClientSessionNotInitialized, InvalidToken
+from .settings import app
 
 # discord oauth
 @app.exception_handler(Unauthorized)

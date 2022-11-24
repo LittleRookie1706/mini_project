@@ -1,6 +1,6 @@
 from .settings import app
 from database.postgres.peewee.sync import db
-# from database.redis.sync import redis_cache
+from database.redis.sync import redis
 
 @app.on_event("startup")
 async def startup():

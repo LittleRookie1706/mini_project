@@ -1,14 +1,8 @@
-import os
-from fastapi import Request, Response
-from fastapi_redis_cache import FastApiRedisCache
-from database.postgres.peewee.sync import PeeweeModel
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from redis import asyncio as aioredis
 
-LOCAL_REDIS_URL  =  "redis://redis:6379"
+REDIS_URL  =  "redis://redis:6379"
 
-redis_cache = FastApiRedisCache()
-redis_cache.init(
-    host_url=os.environ.get("REDIS_URL", LOCAL_REDIS_URL),
-    prefix="myapi-cache",
-    response_header="X-MyAPI-Cache",
-    ignore_arg_types=[Request, Response]
-)
+redis = aioredis.from_url(REDIS_URL, encoding="utf8", decode_responses=True)
+FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
