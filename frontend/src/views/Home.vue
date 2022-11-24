@@ -15,8 +15,12 @@
         <NewsCard v-for="news in newsList" :key="news.id" :news="news"/>
         <div class="d-flex align-center flex-column pa-6">
           <v-btn-toggle>
-            <v-btn v-if="pageNumber > 1" border="solid" color="#E0E0E0" variant="outlined" :href="`/page/${pageNumber-1}`">Prev</v-btn>
-            <v-btn color="#E0E0E0" variant="outlined" :href="`/page/${pageNumber+1}`">Next</v-btn>
+            <v-btn v-if="pageNumber > 1" border="solid" color="#E0E0E0" variant="outlined" @click="pageLoad(pageNumber-1)">
+              <router-link :to="{ name:'page', params: { pageNumber: pageNumber+1 } }">Prev</router-link>
+            </v-btn>
+            <v-btn color="#E0E0E0" variant="outlined" @click="pageLoad(pageNumber+1)" >
+              <router-link :to="{ name:'page', params: { pageNumber: pageNumber+1 } }">Next</router-link>
+            </v-btn>
           </v-btn-toggle>
         </div>
       </v-col>
@@ -41,7 +45,6 @@
   // typescript
   import MinimumNews from '@/types/MinimumNews'
   import Tags from '@/types/Tags'
-  import TagGroups from '@/types/TagGroups'
 
   // components
   const TopBar = defineAsyncComponent(() => import("@/components/TopBar.vue"))
@@ -52,8 +55,8 @@
   const Footer = defineAsyncComponent(() => import("@/components/Footer.vue"))
 
 
-  const baseURL = ref("http://localhost:8000");
-  const loginURL = ref("https://discord.com/api/oauth2/authorize?client_id=937351409198829681&redirect_uri=http%3A%2F%2F127.0.0.1%3A8080%2Fdiscord_oauth&response_type=code&scope=identify%20email%20connections%20guilds%20guilds.members.read");
+  const baseURL = ref("http://localhost:8000")
+  const loginURL = ref("https://discord.com/api/oauth2/authorize?client_id=937351409198829681&redirect_uri=http%3A%2F%2F127.0.0.1%3A8080%2Fdiscord_oauth&response_type=code&scope=identify%20email%20connections%20guilds%20guilds.members.read")
   const route = useRoute()
 
   let pageNumber = parseInt(route.params.pageNumber)
@@ -96,14 +99,18 @@
     if(!pageNumber){pageNumber=1}
     
     // fetch
-    const slideshowPromise = fetchGetSlideshow(pageNumber)
-    const newsPromise = fetchGetNewsList(pageNumber)
-    const mostViewPromise = fetchGetMostView()
-    const tagsPromise = fetchGetTags()
-    slideshowList.value = await slideshowPromise
-    newsList.value = await newsPromise
-    mostViewList.value = await mostViewPromise
-    tagsList.value = await tagsPromise
+    await Promise.all([
+      fetchGetSlideshow(pageNumber),
+      fetchGetNewsList(pageNumber),
+      fetchGetMostView(),
+      fetchGetTags()
+    ]).then((values) => {
+      console.log(values);
+      slideshowList.value = values[0]
+      newsList.value = values[1]
+      mostViewList.value = values[2]
+      tagsList.value = values[3]
+    });
 
     // process data
     for(var i in tagsList.value){
@@ -114,6 +121,21 @@
     }
 
   })
+
+  function pageLoad(num: number) {
+    console.log(num)
+    pageNumber = num
+
+    Promise.all([
+      fetchGetSlideshow(pageNumber),
+      fetchGetNewsList(pageNumber),
+    ]).then((values) => {
+      slideshowList.value = values[0]
+      newsList.value = values[1]
+    });
+    window.scrollTo(0,0);
+  }
+
 
 </script>
 

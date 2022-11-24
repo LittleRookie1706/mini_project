@@ -30,3 +30,12 @@ async def get_news_by_page_number(news_id: int):
     if news:
         return news.__data__
     raise HTTPException(detail={"error": "Not found news"}, status_code=404)
+
+
+@router.get("/news/{news_id}/tags/")
+async def get_news_by_page_number(news_id: int):
+    news = News.get_or_none(id=news_id)
+    if news:
+        return News.get_tags(news_id)
+    raise HTTPException(detail={"error": "Not found news"}, status_code=404)
+

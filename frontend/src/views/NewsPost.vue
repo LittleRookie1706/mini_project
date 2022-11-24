@@ -8,6 +8,7 @@
                     <!-- Content container -->
                     <div class="w3-container" id="about">
                         <div class="w3-content" style="max-width:800px">
+                            <h1 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">{{news.title}}</span></h1>
                             <span v-html="news.content"></span>
                         </div>
                     </div>
@@ -137,7 +138,7 @@
 
 <script setup lang="ts">
     // vue
-    import { ref, defineAsyncComponent, onBeforeMount, watch  } from 'vue'
+    import { ref, defineAsyncComponent, onBeforeMount } from 'vue'
     import { useRoute } from 'vue-router'
 
     // types
