@@ -6,8 +6,7 @@ sys.path.append(str(package_root_directory))
 
 import json
 import datetime
-from apps.news.models import Tags, News, TagGroups
-from apps.authentication.models import Users
+from models import Tags, News, TagGroups, Users
 
 def create_sample_tag_groups():
     with open('database/postgres/peewee/sample_data/taggroups.json', encoding='utf-8') as f:
@@ -29,6 +28,7 @@ def create_sample_comments():
     pass
 
 def create_sample_news():
+    from database.postgres.peewee.clean_data import clean_title, clean_content
 
     with open('database/postgres/peewee/sample_data/news.json', encoding='utf-8') as f:
         data = json.loads(f.read())
@@ -45,6 +45,9 @@ def create_sample_news():
     for key, value in tags.items():
         news = News.get(title=key)
         news.tags.add([ Tags.get(Tags.id == x) for x in value ])
+    
+    clean_title()
+    clean_content()
 
 
 sample_data={

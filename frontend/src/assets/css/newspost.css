@@ -31,12 +31,6 @@
     text-align: center !important;
 }
 
-.w3-button{
-    color: #fff;
-    background-color: #000;
-    padding: 8px 16px;
-}
-
 .w3-button:hover{
     color: #000 !important;
     background-color: #ccc!important;

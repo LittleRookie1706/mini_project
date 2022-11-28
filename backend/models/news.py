@@ -1,8 +1,6 @@
 # default
 import datetime, pytz
 
-from fastapi import HTTPException
-
 from peewee import CharField, IntegerField, DateTimeField, ForeignKeyField, BooleanField, ManyToManyField
 from database.postgres.peewee.sync import PeeweeModel
 

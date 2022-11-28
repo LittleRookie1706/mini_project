@@ -49,9 +49,7 @@
 
 <script setup lang="ts">
     import { ref, defineProps, onMounted } from 'vue'
-
-
-    const props = defineProps({ baseURL: String})
+    import * as fetchModule from '@/assets/ts/fetch.ts'
 
     const rail = ref(true)
     const drawer = ref(true)
@@ -59,28 +57,11 @@
         { id: 1, title: 'Manage content', icon: 'fas fa-bars-progress', value: 'manage', active: true },
         { id: 2, title: 'Statistic', icon: 'fas fa-chart-simple', value:'statistic', active: false },
     ])
-    
-    const accessToken = 'gOQ8wdVSmMxnvv72av0PVYmmjZWkJh'
-    // gOQ8wdVSmMxnvv72av0PVYmmjZWkJh
 
-    const myHeaders = new Headers({
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/x-www-form-urlencoded'
-    })
     const currentUser = ref({})
 
-    async function fetchGetUser() {
-        const response = await fetch(`${props.baseURL}/users/self/`,
-        {   method: 'GET', 
-            headers: myHeaders
-        });
-        if (!response.ok) {return {}}
-        const user = await response.json()
-        return user
-    }
-
     onMounted(async () =>{
-        currentUser.value = await fetchGetUser()
+        currentUser.value = await fetchModule.fetchGetUser()
     })
 
 

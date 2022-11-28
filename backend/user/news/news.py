@@ -1,5 +1,6 @@
 # default
 from typing import Optional
+import ast
 
 # fastapi
 from fastapi import HTTPException
@@ -24,11 +25,13 @@ async def get_news_by_page_number(page_number: Optional[int] = None, is_slidesho
 
 
 @router.get("/news/{news_id}/")
-@cache(expire=3600)
+# @cache(expire=3600)
 async def get_news_by_page_number(news_id: int):
     news = News.get_or_none(id=news_id)
     if news:
-        return news.__data__
+        news = news.__data__
+        news['content'] = ast.literal_eval(news['content'])
+        return news
     raise HTTPException(detail={"error": "Not found news"}, status_code=404)
 
 

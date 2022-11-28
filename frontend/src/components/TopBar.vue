@@ -35,7 +35,7 @@
 
         <v-spacer></v-spacer>
 
-        <div v-if="logged_in">
+        <div v-if="currentUser.id">
             <v-avatar id="avatar-dropdown" :image="currentUser.avatar"></v-avatar>
             <v-menu activator="#avatar-dropdown" transition="fab-transition">
                 <!-- <v-list>
@@ -51,7 +51,7 @@
             </v-menu>
         </div>
         <div v-else>
-            <a :href="loginURL" id="login-url">Login</a>
+            <a :href="fetchModule.loginURL" id="login-url">Login</a>
         </div>
 
     </v-app-bar>
@@ -59,35 +59,12 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, defineProps, onBeforeMount } from 'vue';
-
-    const props = defineProps({ baseURL: String, loginURL: String  })
+    import { ref, defineProps, onBeforeMount } from 'vue'
+    import * as fetchModule from '@/assets/ts/fetch.ts'
+    
     var currentUser = ref({})
-    var logged_in = ref(true)
-    const items=ref([])
+    const items = ref([])
 
-    const accessToken = 'gOQ8wdVSmMxnvv72av0PVYmmjZWkJh'
-    // gOQ8wdVSmMxnvv72av0PVYmmjZWkJh
-
-    const myHeaders = new Headers({
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/x-www-form-urlencoded'
-    })
-
-
-    async function fetchGetUser() {
-        const response = await fetch(`${props.baseURL}/users/self/`,
-        {   method: 'GET', 
-            headers: myHeaders
-        });
-        if (!response.ok) {
-            logged_in.value = false
-            return {}
-            // throw new Error(`An error has occured: ${response.status}`)
-        }
-        const user = await response.json()
-        return user
-    }
 
     function setAvatarDropdownFields() {
         var avatarDropdownFields = [
@@ -110,10 +87,8 @@
     }
 
     onBeforeMount(async () => {
-
-        currentUser.value = await fetchGetUser()
+        currentUser.value = await fetchModule.fetchGetUser()
         items.value = setAvatarDropdownFields()
-
     })
 
 

@@ -15,6 +15,6 @@ class Comments(SQLModel, table=True):
     user_id: Optional[int] = Field(default=None, foreign_key="users.id")
     news_id: Optional[int] = Field(default=None, foreign_key="news.id")
     rating: int = Field(default=0)
-    comments: str = Field(max_length=2000)
+    content: str = Field(max_length=2000)
     created_at: datetime.datetime = Field(default=vn_now())
     updated_at: datetime.datetime = Field(default=vn_now())

@@ -41,6 +41,7 @@
   // vue
   import { ref, defineAsyncComponent, onBeforeMount } from 'vue'
   import { useRoute } from 'vue-router'
+  import * as fetchModule from '@/assets/ts/fetch.ts'
 
   // typescript
   import MinimumNews from '@/types/MinimumNews'
@@ -54,9 +55,6 @@
   const NewsGroup = defineAsyncComponent(() => import("@/components/NewsGroup.vue"))
   const Footer = defineAsyncComponent(() => import("@/components/Footer.vue"))
 
-
-  const baseURL = ref("http://localhost:8000")
-  const loginURL = ref("https://discord.com/api/oauth2/authorize?client_id=937351409198829681&redirect_uri=http%3A%2F%2F127.0.0.1%3A8080%2Fdiscord_oauth&response_type=code&scope=identify%20email%20connections%20guilds%20guilds.members.read")
   const route = useRoute()
 
   let pageNumber = parseInt(route.params.pageNumber)
@@ -67,45 +65,16 @@
   const tagsList = ref<Tags[]>([])
   const tagGroups = ref({})
 
-  async function fetchGetSlideshow(pageNumber: number) {
-    const response = await fetch(`${baseURL.value}/news?page_number=${pageNumber}&is_slideshow=true`);
-    if (!response.ok) {return []}
-    const result = await response.json()
-    return result
-  }
-
-  async function fetchGetNewsList(pageNumber: number) {
-    const response = await fetch(`${baseURL.value}/news?page_number=${pageNumber}`);
-    if (!response.ok) {return []}
-    const result = await response.json()
-    return result
-  }
-
-  async function fetchGetMostView() {
-    const response = await fetch(`${baseURL.value}/news?order_by_view=true`);
-    if (!response.ok) {return []}
-    const result = await response.json()
-    return result
-  }
-
-  async function fetchGetTags() {
-    const response = await fetch(`${baseURL.value}/tags`);
-    if (!response.ok) {return []}
-    const result = await response.json()
-    return result
-  }
-
   onBeforeMount(async () =>{
     if(!pageNumber){pageNumber=1}
     
     // fetch
     await Promise.all([
-      fetchGetSlideshow(pageNumber),
-      fetchGetNewsList(pageNumber),
-      fetchGetMostView(),
-      fetchGetTags()
+      fetchModule.fetchGetSlideshow(pageNumber),
+      fetchModule.fetchGetNewsList(pageNumber),
+      fetchModule.fetchGetMostView(),
+      fetchModule.fetchGetTags()
     ]).then((values) => {
-      console.log(values);
       slideshowList.value = values[0]
       newsList.value = values[1]
       mostViewList.value = values[2]
@@ -127,8 +96,8 @@
     pageNumber = num
 
     Promise.all([
-      fetchGetSlideshow(pageNumber),
-      fetchGetNewsList(pageNumber),
+      fetchModule.fetchGetSlideshow(pageNumber),
+      fetchModule.fetchGetNewsList(pageNumber),
     ]).then((values) => {
       slideshowList.value = values[0]
       newsList.value = values[1]

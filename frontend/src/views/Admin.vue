@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <SideBar :baseURL="baseURL" />
+        <SideBar />
         <v-main class="ml-10">
             <v-container>
                 <p class="text-h4 font-weight-bold">Filter</p>
@@ -42,6 +42,7 @@
     // default
     import { ref, onBeforeMount } from 'vue'
     import { useRoute } from 'vue-router'
+    import * as fetchModule from '@/assets/ts/fetch.ts'
 
     // typescripts
     import MinimumNews from '../types/News';
@@ -50,23 +51,15 @@
     import SideBar from '@/components/SideBar.vue'
     import AdminNewsCard from '@/components/AdminNewsCard.vue'
 
-    const baseURL = "http://localhost:8000"
     const route = useRoute()
     var pageNumber = parseInt(route.params.pageNumber)
 
     const newsList = ref<MinimumNews[]>([])
 
-    async function fetchGetNewsList(pageNumber: number) {
-        const response = await fetch(`${baseURL}/news?page_number=${pageNumber}`)
-        if (!response.ok) {return []}
-        const result = await response.json()
-        return result
-    }
-
     onBeforeMount(async () =>{
         if(!pageNumber){pageNumber=1}
         Promise.all([
-            fetchGetNewsList(pageNumber),
+            fetchModule.fetchGetNewsList(pageNumber),
         ]).then((values) => {
             newsList.value = values[0]
         });
@@ -75,7 +68,7 @@
     function pageLoad(num: number) {
         pageNumber = num
         Promise.all([
-            fetchGetNewsList(pageNumber),
+            fetchModule.fetchGetNewsList(pageNumber),
         ]).then((values) => {
             newsList.value = values[0]
         });
