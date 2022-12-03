@@ -113,13 +113,11 @@ async function fetchUpdateNews(newsId: number, data: any, thumbnailImage: any, b
 
     const body = new FormData()
 
-    for (const key of Object.keys(data)) {body.set(key, data[key])}
+    for (const key of Object.keys(data)){body.set(key, data[key])}
     if(thumbnailImage.files[0]){body.set('thumbnail_img', thumbnailImage.files[0], 'aklsfjasdf.png')}
     if(ogImage.files[0]){body.set('og_img', ogImage.files[0], 'bsdf.png')}
     if(bannerImage.files[0]){body.set('banner_img', bannerImage.files[0], 'cf.png')}
-    for (const tag of  tags) {
-        console.log(tag)
-    }
+    for (const tag of tags){body.append('tags', String(tag))}
 
 
     const response = await fetch(`${baseURL}/admin/news/${newsId}`,
