@@ -42,7 +42,7 @@
     // default
     import { ref, onBeforeMount } from 'vue'
     import { useRoute } from 'vue-router'
-    import * as fetchModule from '@/assets/ts/fetch.ts'
+    import * as fetchAPI from '@/assets/ts/fetch.ts'
 
     // typescripts
     import MinimumNews from '../types/News';
@@ -59,7 +59,7 @@
     onBeforeMount(async () =>{
         if(!pageNumber){pageNumber=1}
         Promise.all([
-            fetchModule.fetchGetNewsList(pageNumber),
+        fetchAPI.fetchGetNewsList(pageNumber),
         ]).then((values) => {
             newsList.value = values[0]
         });
@@ -68,7 +68,7 @@
     function pageLoad(num: number) {
         pageNumber = num
         Promise.all([
-            fetchModule.fetchGetNewsList(pageNumber),
+        fetchAPI.fetchGetNewsList(pageNumber),
         ]).then((values) => {
             newsList.value = values[0]
         });

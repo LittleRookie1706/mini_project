@@ -47,7 +47,7 @@ def create_sample_news():
         news.tags.add([ Tags.get(Tags.id == x) for x in value ])
     
     clean_title()
-    clean_content()
+    # clean_content()
 
 
 sample_data={

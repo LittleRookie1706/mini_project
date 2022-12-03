@@ -23,7 +23,7 @@ class News(PeeweeModel):
     rating = IntegerField(default=0)
     description = CharField()
     keywords = CharField()
-    og_img = CharField(default="")
+    og_img = CharField(null=True)
     title = CharField()
     content = CharField()
     created_at = DateTimeField(default=vn_now())

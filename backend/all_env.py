@@ -39,3 +39,6 @@ DATABASE_URL = 'postgresql://{}:{}@{}:{}/{}?sslmode={}'.format(POSTGRES_USER, PO
 
 # docker async db
 DATABASE_URL = 'postgresql+asyncpg://postgres:postgres@db:5432'
+
+# imgbb
+IMGBB_API_KEY = os.environ.get('IMGBB_API_KEY',None)

@@ -24,13 +24,13 @@ async def get_news_by_page_number(comment: CommentsSchema, user: User = Depends(
     try:
         user = Users.get_or_none(Users.discord_id==user.id)
         news = News.get_or_none(News.id==comment.news)
-        Comments.create(
+        comment = Comments.create(
             user = user,
             news = news,
             rating = comment.rating,
             content = comment.content,
         )
-        return comment
+        return comment.__data__
     except IntegrityError:
         raise HTTPException(detail={"error": "News post not found"}, status_code=404)
 

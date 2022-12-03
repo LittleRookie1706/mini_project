@@ -1,12 +1,19 @@
-const baseURL = "http://localhost:8000"
+const baseURL = "http://localhost/api"
 const loginURL = "https://discord.com/api/oauth2/authorize?client_id=937351409198829681&redirect_uri=http%3A%2F%2F127.0.0.1%3A8080%2Fdiscord_oauth&response_type=code&scope=identify%20email%20connections%20guilds%20guilds.members.read"
-const accessToken = 'm9yKRnFw4ZMPDxek15zykWCoFj77Ms'
+const accessToken = 'XQlYdTHW5G02ZG1N6rOR2Y50A8uYSs'
 
 const myHeaders = new Headers({
     'Authorization': `Bearer ${accessToken}`,
-    'Content-Type': 'application/x-www-form-urlencoded'
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
 })
 
+const FormDataHeaders = new Headers({
+    'Authorization': `Bearer ${accessToken}`,
+    // 'Content-Type': 'multipart/form-data',
+})
+
+// GET
 async function fetchGetUser() {
     const response = await fetch(`${baseURL}/users/self/`,
     {   method: 'GET', 
@@ -31,6 +38,13 @@ async function fetchGetNewsList(pageNumber: number) {
     return result
 }
 
+async function fetchGetNews(newsId: number) {
+    const response = await fetch(`${baseURL}/news/${newsId}`);
+    if (!response.ok) {return {}}
+    const result = await response.json()
+    return result
+}
+
 async function fetchGetMostView() {
     const response = await fetch(`${baseURL}/news?order_by_view=true`);
     if (!response.ok) {return []}
@@ -45,21 +59,103 @@ async function fetchGetTags() {
     return result
 }
 
-async function fetchGetNewsComments(news_id: number) {
-    const response = await fetch(`${baseURL}/news/${news_id}/comments`,);
+async function fetchGetNewsTags(newsId: number) {
+    const response = await fetch(`${baseURL}/news/${newsId}/tags`);
     if (!response.ok) {return []}
-    const user = await response.json()
-    return user
+    const result = await response.json()
+    return result
 }
 
+async function fetchGetNewsComments(newsId: number) {
+    const response = await fetch(`${baseURL}/news/${newsId}/comments`);
+    if (!response.ok) {return []}
+    const result = await response.json()
+    return result
+}
 
+// POST
+async function fetchPostComment(newsId: number, rating: number, content: string){
+    const response = await fetch(`${baseURL}/news/comments`,
+    {   method: 'POST', 
+        headers: myHeaders,
+        body: JSON.stringify({
+            news: newsId, 
+            rating: rating, 
+            content: content
+        })
+    })
+    if (!response.ok) {return []}
+    const result = await response.json()
+    return result
+}
+
+async function fetchCreateNews(data: any, thumbnailImage: any, bannerImage: any, ogImage: any, tags: Array<number>) {
+
+    const body = new FormData()
+    for (const key of Object.keys(data)) {body.set(key, data[key])}
+    if(thumbnailImage.files[0]){body.set('thumbnail_img', thumbnailImage.files[0], 'aklsfjasdf.png')}
+    if(ogImage.files[0]){body.set('og_img', ogImage.files[0], 'bsdf.png')}
+    if(bannerImage.files[0]){body.set('banner_img', bannerImage.files[0], 'cf.png')}
+    for (const tag of tags){body.append('tags', String(tag))}
+
+    const response = await fetch(`${baseURL}/admin/news/`,
+    {   method: 'POST', 
+        headers: FormDataHeaders,
+        body: body
+    })
+    if (!response.ok) {return {}}
+    const result = await response.json()
+    return result
+}
+
+// PATCH
+async function fetchUpdateNews(newsId: number, data: any, thumbnailImage: any, bannerImage: any, ogImage: any, tags: Array<number>) {
+
+    const body = new FormData()
+
+    for (const key of Object.keys(data)) {body.set(key, data[key])}
+    if(thumbnailImage.files[0]){body.set('thumbnail_img', thumbnailImage.files[0], 'aklsfjasdf.png')}
+    if(ogImage.files[0]){body.set('og_img', ogImage.files[0], 'bsdf.png')}
+    if(bannerImage.files[0]){body.set('banner_img', bannerImage.files[0], 'cf.png')}
+    for (const tag of  tags) {
+        console.log(tag)
+    }
+
+
+    const response = await fetch(`${baseURL}/admin/news/${newsId}`,
+    {   method: 'PATCH', 
+        headers: FormDataHeaders,
+        body: body
+    })
+    if (!response.ok) {return {}}
+    const result = await response.json()
+    return result
+}
+
+// DELETE
+async function fetchDeleteNews(newsId: number) {
+    const response = await fetch(`${baseURL}/admin/news/${newsId}`,
+    {   method: 'DELETE', 
+        headers: myHeaders
+    })
+    if (!response.ok) {return {}}
+    const result = await response.json()
+    return result
+}
 
 export {
-    loginURL, 
+    // VAL
+    baseURL, loginURL,
+    // GET
     fetchGetUser,
-    fetchGetMostView,
-    fetchGetNewsList,
-    fetchGetSlideshow,
-    fetchGetTags,
-    fetchGetNewsComments
+    fetchGetNewsList, fetchGetSlideshow,fetchGetMostView,
+    fetchGetTags,fetchGetNewsTags,
+    fetchGetNews,fetchGetNewsComments,
+    // POST
+    fetchPostComment, 
+    fetchCreateNews,
+    // PATCH
+    fetchUpdateNews,
+    // DELETE
+    fetchDeleteNews,
 }

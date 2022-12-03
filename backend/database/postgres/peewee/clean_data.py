@@ -178,13 +178,13 @@ def content_rewrite(content: str):
     return newlist
 
 #  start 
-def clean_title(content: str, news_id):
-        start_pos = content.find('</h1>')
-        content = content[start_pos+5:]
-        print(content)
+def clean_title():
+    for news in many_news:
+        start_pos = news.content.find('</h1>')
+        content = news.content[start_pos+5:]
         News.update(
             content = content
-        ).where(News.id==news_id).execute()
+        ).where(News.id==news.id).execute()
 
 def clean_content():
     many_data = {}

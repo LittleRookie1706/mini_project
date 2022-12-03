@@ -51,7 +51,7 @@
             </v-menu>
         </div>
         <div v-else>
-            <a :href="fetchModule.loginURL" id="login-url">Login</a>
+            <a :href="fetchAPI.loginURL" id="login-url">Login</a>
         </div>
 
     </v-app-bar>
@@ -60,7 +60,7 @@
 
 <script setup lang="ts">
     import { ref, defineProps, onBeforeMount } from 'vue'
-    import * as fetchModule from '@/assets/ts/fetch.ts'
+    import * as fetchAPI from '@/assets/ts/fetch.ts'
     
     var currentUser = ref({})
     const items = ref([])
@@ -87,7 +87,7 @@
     }
 
     onBeforeMount(async () => {
-        currentUser.value = await fetchModule.fetchGetUser()
+        currentUser.value = await fetchAPI.fetchGetUser()
         items.value = setAvatarDropdownFields()
     })
 

@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
     import { ref, defineProps, onMounted } from 'vue'
-    import * as fetchModule from '@/assets/ts/fetch.ts'
+    import * as fetchAPI from '@/assets/ts/fetch.ts'
 
     const rail = ref(true)
     const drawer = ref(true)
@@ -61,7 +61,7 @@
     const currentUser = ref({})
 
     onMounted(async () =>{
-        currentUser.value = await fetchModule.fetchGetUser()
+        currentUser.value = await fetchAPI.fetchGetUser()
     })
 
 

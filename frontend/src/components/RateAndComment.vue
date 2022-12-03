@@ -1,18 +1,19 @@
 <template>
-<div class="w3-container d-flex justify-center" id="where" style="padding-bottom:32px;">
+<v-container>
+    <div class="w3-container d-flex justify-center" id="where" style="padding-bottom:32px;">
     <div class="w3-content" style="max-width:400px">
-        <form @submit.prevent="onSubmit" target="_parent" method="post"></form>
+        <form>
             <div class="rating">
 
-                <input type="radio" name="rate" id="rating-5" value="5">
+                <input type="radio" name="rate" id="rating-5" value="5" v-model="rating">
                 <label for="rating-5"></label>
-                <input type="radio" name="rate" id="rating-4" value="4">
+                <input type="radio" name="rate" id="rating-4" value="4" v-model="rating">
                 <label for="rating-4"></label>
-                <input type="radio" name="rate" id="rating-3" value="3">
+                <input type="radio" name="rate" id="rating-3" value="3" v-model="rating">
                 <label for="rating-3"></label>
-                <input type="radio" name="rate" id="rating-2" value="2">
+                <input type="radio" name="rate" id="rating-2" value="2" v-model="rating">
                 <label for="rating-2"></label>
-                <input type="radio" name="rate" id="rating-1" value="1">
+                <input type="radio" name="rate" id="rating-1" value="1" v-model="rating">
                 <label for="rating-1"></label>
 
                 <div class="emoji-wrapper">
@@ -104,30 +105,61 @@
                 </div>
             </div>
 
-            <input class="w3-input w3-padding-16 w3-border rounded" id="comment" name="content" type="text" placeholder="Bình luận" required style="min-height: 100px;">
+            <input 
+                v-model="content"
+                class="w3-input w3-padding-16 w3-border rounded" 
+                id="comment" name="content" 
+                type="text" placeholder="Bình luận" 
+                required style="min-height: 100px;"
+            >
             <div class="d-flex justify-center"> 
-                <v-btn class="w3-button mt-2 rounded" color="black" @click="addComment()">Gửi bình luận</v-btn>
+                <v-btn class="w3-button mt-2 rounded" color="black" @click="onSubmit()">Gửi bình luận</v-btn>
             </div>
-        <!-- </form> -->
+            <v-alert type="error" :model-value="formAlert">
+                Hãy điền đầy đủ thông tin
+            </v-alert>
+        </form>
     </div>
 </div>
+<!-- list comment -->
+<CommentList :key="key" :newsId="newsId"/>
+</v-container>
+
 </template>
 
 <script setup lang="ts">
-    import { ref } from 'vue'
-    import * as fetchModule from '@/assets/ts/fetch.ts'
+    import { ref, defineProps, defineAsyncComponent, onMounted } from 'vue'
+    import * as fetchAPI from '@/assets/ts/fetch.ts'
+    const CommentList = defineAsyncComponent(() => import("@/components/CommentList.vue"))
 
-    const content = ref('')
-    const comment = ref({
-        rating: Number,
-        content: String
-    })
+    const props = defineProps({ newsId: Number })
 
-    const onSubmit = () => {
-        // console.log(color.value);
-        
-        // make server call with appropriate data
-    };
+    const rating = ref<number>(0)
+    const content = ref<string>('')
+    const formAlert = ref<boolean>(false)
+    const key = ref(0)
+
+    function waringAlert(){
+        formAlert.value=true
+            setTimeout(()=>{
+                formAlert.value=false
+        },5000)
+    }
+
+    function onSubmit(){
+        if(rating.value == 0 || content.value == ''){
+            waringAlert()
+        }
+        Promise.all([
+            fetchAPI.fetchPostComment(props.newsId, rating.value, content.value)
+        ]).then((values) => {
+            const newComment = values[0]
+            console.log(newComment)
+            key.value++
+            rating.value = 0
+            content.value = ''
+        });  
+    }
 </script>
 
 <style src="@/assets/css/rate.css" scoped></style>

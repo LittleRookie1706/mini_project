@@ -12,11 +12,9 @@
                             <span v-html="news.content"></span>
                         </div>
                     </div>
-                    <!-- comment -->
-                    <RateAndComment />
-                    <!-- list comment -->
+                    
                     <v-container>
-                        <CommentList :newsId="news.id" />
+                        <RateAndComment :newsId="news.id" />
                     </v-container>
                 </div>
             </v-container>
@@ -30,37 +28,24 @@
     // vue
     import { ref, defineAsyncComponent, onBeforeMount } from 'vue'
     import { useRoute } from 'vue-router'
-    import { newsConverter } from '@/assets/ts/newsConverter'
+    import { loginURL, fetchGetNews } from '@/assets/ts/fetch'
 
     // types
     import News from '@/types/News'
 
     // components
     const TopBar = defineAsyncComponent(() => import("@/components/TopBar.vue"))
-    const CommentList = defineAsyncComponent(() => import("@/components/CommentList.vue"))
     import RateAndComment from '@/components/RateAndComment.vue'
     import Footer from '@/components/Footer.vue'
 
-    const baseURL = ref("http://localhost:8000");
-    const loginURL = ref("https://discord.com/api/oauth2/authorize?client_id=937351409198829681&redirect_uri=http%3A%2F%2F127.0.0.1%3A8080%2Fdiscord_oauth&response_type=code&scope=identify%20email%20connections%20guilds%20guilds.members.read");
     const route = useRoute()
     
     const news = ref<News>({})
 
-    async function fetchGetNews(newsId: number) {
-        const response = await fetch(`${baseURL.value}/news/${newsId}`);
-        if (!response.ok) {return {}}
-        const result = await response.json()
-        return result
-    }
-
     onBeforeMount(async () =>{
         news.value = await fetchGetNews(route.params.newsId)
-        news.value.content = newsConverter(news.value.content);
     })
-
     
-
 </script>
 
 <style src="@/assets/css/newspost.css"></style>

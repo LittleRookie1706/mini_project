@@ -1,11 +1,11 @@
 import imgbbpy
 import wget
-import cv2
+# import cv2
 
-import os
-import time
+import os, time, asyncio
 
 from all_env import IMGBB_API_KEY
+
 client = imgbbpy.SyncClient(IMGBB_API_KEY)
 
 def save_image(url):
@@ -13,6 +13,10 @@ def save_image(url):
 	return image
 
 def delete_image(image):
+	asyncio.sleep(2)
+	os.remove(image)
+
+async def async_delete_image(image):
 	time.sleep(2)
 	os.remove(image)
 	
@@ -27,21 +31,21 @@ def imgbb_image(url:str):
 
 	return link
 
-def crop_image(url):
-	image = save_image(url)
-	img = cv2.imread(image)
+# def crop_image(url):
+# 	image = save_image(url)
+# 	img = cv2.imread(image)
 
-	# resize image
-	resized_img = cv2.resize(img,(382, 200), interpolation = cv2.INTER_AREA)
-	# Cropping an image
-	cropped_image = resized_img[0:200,91:291]
+# 	# resize image
+# 	resized_img = cv2.resize(img,(382, 200), interpolation = cv2.INTER_AREA)
+# 	# Cropping an image
+# 	cropped_image = resized_img[0:200,91:291]
 
-	# Save the cropped image
-	cv2.imwrite("cropped-"+str(image), cropped_image)
+# 	# Save the cropped image
+# 	cv2.imwrite("cropped-"+str(image), cropped_image)
 
-	cv2.waitKey(0)
-	cv2.destroyAllWindows()
+# 	cv2.waitKey(0)
+# 	cv2.destroyAllWindows()
 
-	delete_image(image)
+# 	delete_image(image)
 
-	return "cropped-"+str(image)
+# 	return "cropped-"+str(image)

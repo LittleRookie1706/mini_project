@@ -11,13 +11,14 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, defineProps, onMounted } from 'vue'
-  import * as fetchModule from '@/assets/ts/fetch.ts'
+  import { ref, defineProps, defineEmits } from 'vue'
+  import * as fetchAPI from '@/assets/ts/fetch.ts'
 
   const props = defineProps({ newsId: Number })
 
   const commentList = ref([])
   const items = ref([])
+  let call_func = true
 
   function commentProcess(){
     if(commentList.value.length >= 1){
@@ -33,30 +34,23 @@
       }
       items.value.splice(0,1,{ type: 'subheader', title: 'Top comment' })
     }
-
-    console.log(items.value)
-
   }
 
-  onMounted(async () =>{
-    let call_func = true
-    window.onscroll = () => {
-      if(call_func){
-        let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight >= document.documentElement.offsetHeight - 500;
-        if (bottomOfWindow) {
-          call_func = false
-          Promise.all([
-            fetchModule.fetchGetNewsComments(props.newsId),
-          ]).then((values) => {
-            commentList.value = values[0]
-            commentProcess()
-          });
-          
-        }
+  window.onscroll = () => {
+    if(call_func){
+      let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight >= document.documentElement.offsetHeight - 500;
+      if (bottomOfWindow) {
+        call_func = false
+        Promise.all([
+          fetchAPI.fetchGetNewsComments(props.newsId),
+        ]).then((values) => {
+          commentList.value = values[0]
+          commentProcess()
+        });    
       }
     }
-    
-  })
+  }
+
 
 </script>
 

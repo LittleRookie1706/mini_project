@@ -41,7 +41,7 @@
   // vue
   import { ref, defineAsyncComponent, onBeforeMount } from 'vue'
   import { useRoute } from 'vue-router'
-  import * as fetchModule from '@/assets/ts/fetch.ts'
+  import * as fetchAPI from '@/assets/ts/fetch.ts'
 
   // typescript
   import MinimumNews from '@/types/MinimumNews'
@@ -70,10 +70,10 @@
     
     // fetch
     await Promise.all([
-      fetchModule.fetchGetSlideshow(pageNumber),
-      fetchModule.fetchGetNewsList(pageNumber),
-      fetchModule.fetchGetMostView(),
-      fetchModule.fetchGetTags()
+      fetchAPI.fetchGetSlideshow(pageNumber),
+      fetchAPI.fetchGetNewsList(pageNumber),
+      fetchAPI.fetchGetMostView(),
+      fetchAPI.fetchGetTags()
     ]).then((values) => {
       slideshowList.value = values[0]
       newsList.value = values[1]
@@ -96,8 +96,8 @@
     pageNumber = num
 
     Promise.all([
-      fetchModule.fetchGetSlideshow(pageNumber),
-      fetchModule.fetchGetNewsList(pageNumber),
+      fetchAPI.fetchGetSlideshow(pageNumber),
+      fetchAPI.fetchGetNewsList(pageNumber),
     ]).then((values) => {
       slideshowList.value = values[0]
       newsList.value = values[1]

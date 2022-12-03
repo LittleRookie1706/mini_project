@@ -1,13 +1,17 @@
 # fastapi
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware import Middleware
+
 
 #local
 from all_env import docs_url
 
 ### base setting ###
-app = FastAPI(docs_url=f"/{docs_url}", redoc_url=None)
+app = FastAPI(docs_url=f"/api/{docs_url}", redoc_url=None)
 origins = ["*"]
+# middleware = [Middleware(CORSMiddleware, allow_origins=origins)]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -15,6 +19,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 ### temaple response ###
 # from fastapi.staticfiles import StaticFiles

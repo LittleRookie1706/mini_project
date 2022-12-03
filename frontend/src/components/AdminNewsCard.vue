@@ -1,9 +1,8 @@
 <template>
-
     <v-card
         max-width="1000"
         class="mt-5 mx-auto elevation-7"
-        :id="news.id" 
+        v-if="show" 
     >
             <v-row dense>
                 <v-col cols="12">
@@ -33,7 +32,7 @@
                                                 <v-btn icon="fas fa-pen"  color="white" class="elevation-5"></v-btn>  
                                             </router-link>
                                             <v-spacer></v-spacer>
-                                            <v-btn icon="fas fa-trash" color="#FF6961" class="elevation-5"></v-btn>
+                                            <v-btn icon="fas fa-trash" color="#FF6961" class="elevation-5" @click="deleteNews(news.id)"></v-btn>
                                         </v-col>
                                     </v-row>
                                 </v-container>
@@ -53,16 +52,26 @@
                 </v-col>
             </v-row>
     </v-card>
-
-    
 </template>
 
 <script setup lang="ts">
-    import { defineProps } from 'vue';
+    import { ref, defineProps } from 'vue';
+    import * as fetchAPI from '@/assets/ts/fetch'
     const props = defineProps({ news: Object })
+    let show = ref<boolean>(true)
+
+    function deleteNews(news_id: number){
+        Promise.all([
+            fetchAPI.fetchDeleteNews(news_id)
+        ]).then((values) => {
+            if(values[0].status === 'success'){
+                show.value = false
+            }
+        });
+        
+    }
 
 </script>
-  
 
 <style>
 
