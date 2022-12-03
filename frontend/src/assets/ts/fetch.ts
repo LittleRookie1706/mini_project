@@ -1,3 +1,5 @@
+import { randomString } from '@/assets/ts/module'
+
 const baseURL = "http://localhost/api"
 const loginURL = "https://discord.com/api/oauth2/authorize?client_id=937351409198829681&redirect_uri=http%3A%2F%2F127.0.0.1%3A8080%2Fdiscord_oauth&response_type=code&scope=identify%20email%20connections%20guilds%20guilds.members.read"
 const accessToken = 'XQlYdTHW5G02ZG1N6rOR2Y50A8uYSs'
@@ -93,9 +95,9 @@ async function fetchCreateNews(data: any, thumbnailImage: any, bannerImage: any,
 
     const body = new FormData()
     for (const key of Object.keys(data)) {body.set(key, data[key])}
-    if(thumbnailImage.files[0]){body.set('thumbnail_img', thumbnailImage.files[0], 'aklsfjasdf.png')}
-    if(ogImage.files[0]){body.set('og_img', ogImage.files[0], 'bsdf.png')}
-    if(bannerImage.files[0]){body.set('banner_img', bannerImage.files[0], 'cf.png')}
+    if(thumbnailImage.files[0]){body.set('thumbnail_img', thumbnailImage.files[0], `thumbnail-${randomString(10)}.png`)}
+    if(ogImage.files[0]){body.set('og_img', ogImage.files[0], `og-${randomString(10)}.png`)}
+    if(bannerImage.files[0]){body.set('banner_img', bannerImage.files[0], `banner-${randomString(10)}.png`)}
     for (const tag of tags){body.append('tags', String(tag))}
 
     const response = await fetch(`${baseURL}/admin/news/`,
@@ -112,11 +114,10 @@ async function fetchCreateNews(data: any, thumbnailImage: any, bannerImage: any,
 async function fetchUpdateNews(newsId: number, data: any, thumbnailImage: any, bannerImage: any, ogImage: any, tags: Array<number>) {
 
     const body = new FormData()
-
     for (const key of Object.keys(data)){body.set(key, data[key])}
-    if(thumbnailImage.files[0]){body.set('thumbnail_img', thumbnailImage.files[0], 'aklsfjasdf.png')}
-    if(ogImage.files[0]){body.set('og_img', ogImage.files[0], 'bsdf.png')}
-    if(bannerImage.files[0]){body.set('banner_img', bannerImage.files[0], 'cf.png')}
+    if(thumbnailImage.files[0]){body.set('thumbnail_img', thumbnailImage.files[0], `thumbnail-${randomString(10)}.png`)}
+    if(ogImage.files[0]){body.set('og_img', ogImage.files[0], `og-${randomString(10)}.png`)}
+    if(bannerImage.files[0]){body.set('banner_img', bannerImage.files[0], `banner-${randomString(10)}.png`)}
     for (const tag of tags){body.append('tags', String(tag))}
 
 

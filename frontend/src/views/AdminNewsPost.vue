@@ -168,7 +168,7 @@
     // types
     import News from '@/types/News'
     import Tags from '@/types/Tags'
-    interface UpdateObject{
+    interface TsObject{
         [key: string]: any
     }
 
@@ -237,6 +237,14 @@
         const bannerImage = document.getElementById('banner-image')
         const ogImage = document.getElementById('og-image')
 
+        // const images: TsObject = {
+        //     'thumbnail-image': thumbnailImage.files[0],
+        //     'banner-image': bannerImage.files[0],
+        //     'og-image': ogImage.files[0]
+        // }
+
+        // console.log(images)
+
         Promise.all([
             fetchCreateNews(
                 news.value, 
@@ -254,7 +262,7 @@
         const thumbnailImage = document.getElementById('thumbnail-image')
         const bannerImage = document.getElementById('banner-image')
         const ogImage = document.getElementById('og-image')
-        const result: UpdateObject = compareObject(originalNews, news.value)
+        const result: TsObject = compareObject(originalNews, news.value)
 
         Promise.all([
             fetchUpdateNews(

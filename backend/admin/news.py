@@ -39,7 +39,7 @@ async def img_save(thumbnail_img: File, og_img: Optional[File] = None, banner_im
     return {
         'thumbnail_img': thumbnail_img,
         'og_img': og_img,
-        'banner_img': og_img
+        'banner_img': banner_img
     }
 
 @router.post("/news/", dependencies=[Depends(discord.requires_authorization)])
