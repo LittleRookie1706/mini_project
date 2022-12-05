@@ -20,16 +20,55 @@
         
         <v-responsive
             class="mx-auto"
-            max-width="700"
+            max-width="800"
         >
-            <v-card-actions class="justify-center">
+
+            <v-card-actions class="d-flex justify-center align-center">
+                <v-select
+                    v-model="tagSelected"
+                    :items="tagsList.map(tag => tag.name)"
+                    variant="solo"
+                    
+                    color="black"
+                    single-line
+                    hide-details
+                    style="max-width: 140px;"
+                ></v-select>
                 <v-text-field
-                    color="#fff"
+                    id="search-bar"
+                    v-model="searchContent"
+                    color="black"
                     label="Searching..."
-                    prepend-icon="fa-sharp fa-solid fa-magnifying-glass"
                     variant="outlined"
                     hide-details
                 ></v-text-field>
+                <!-- prepend-icon="fa-sharp fa-solid fa-magnifying-glass" -->
+                <v-menu 
+                    activator="#search-bar" 
+                    transition="slide-y-transition"
+                    persistent
+                >
+                    <v-list v-show="showSearchResult">
+                        <v-list-item-group>
+                            <v-list-item
+                            v-for="(item, i) in searchBarItems"
+                            :key="i"
+                            :href="item.id"
+                            >
+                                <v-row class="ma-auto justify-center">
+                                    <v-col cols="2">
+                                        <v-img :src="item.thumbnail_img" width="80"></v-img>
+                                    </v-col>
+                                    <v-col cols="10">
+                                        <v-list-item-title v-text="item.title" ></v-list-item-title>
+                                    </v-col>
+                                </v-row>
+                                <v-divider></v-divider>
+                        </v-list-item>
+                    </v-list-item-group>
+                    </v-list>
+
+                </v-menu>
             </v-card-actions>
         </v-responsive>
 
@@ -38,16 +77,7 @@
         <div v-if="currentUser.id">
             <v-avatar id="avatar-dropdown" :image="currentUser.avatar"></v-avatar>
             <v-menu activator="#avatar-dropdown" transition="fab-transition">
-                <!-- <v-list>
-                    <v-list-item
-                    v-for="(item, index) in items"
-                    :key="index"
-                    :value="index"
-                    >
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                    </v-list-item>
-                </v-list> -->
-                <v-list :items="items"></v-list>
+                <v-list :items="userItems"></v-list>
             </v-menu>
         </div>
         <div v-else>
@@ -59,11 +89,19 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, defineProps, onBeforeMount } from 'vue'
+    import { ref, defineProps, onBeforeMount, watch } from 'vue'
     import * as fetchAPI from '@/assets/ts/fetch.ts'
+
+    const prop = defineProps({ tagsList: Array })
     
     var currentUser = ref({})
-    const items = ref([])
+    const userItems = ref([])
+
+    const tagSelected = ref<string>('Tất cả')
+    const searchContent = ref<string>('')
+    const showSearchResult = ref<boolean>(false)
+
+    const searchBarItems = ref([])
 
 
     function setAvatarDropdownFields() {
@@ -88,10 +126,46 @@
 
     onBeforeMount(async () => {
         currentUser.value = await fetchAPI.fetchGetUser()
-        items.value = setAvatarDropdownFields()
+        userItems.value = setAvatarDropdownFields()
+        console.log(tagId('Sinh học'))
     })
 
+    function tagId(name: string){
+        const object = prop.tagsList
+        for (const i in object) {
+            if(object[i]['name']==name){
+                return object[i]['id']
+            }
+        }
+        return null
+    }
 
+    watch(searchContent, async (content) => {
+        if(content!=''){
+            showSearchResult.value = true
+            if(tagSelected.value=="Tất cả"){
+                searchBarItems.value = await fetchAPI.fetchGetSearch(content, 0)
+            }
+            else{
+                searchBarItems.value = await fetchAPI.fetchGetSearch(content, tagId(tagSelected.value))
+            }
+        }
+        else{
+            showSearchResult.value = false
+        }  
+    })
+
+    watch(tagSelected, async (tag) => {
+        console.log(tag, tagId(tag))
+        if(searchContent.value!=''){
+            if(tag=="Tất cả"){
+                searchBarItems.value = await fetchAPI.fetchGetSearch(searchContent.value, 0)
+            }
+            else{
+                searchBarItems.value = await fetchAPI.fetchGetSearch(searchContent.value, tagId(tag))
+            }
+        }
+    })
 
 </script>
 
@@ -118,6 +192,7 @@
     #avatar-dropdown{
         cursor: pointer;
     }
+
     #login-url{
         font-family: fira sans,sans-serif;
         font-weight: 700;

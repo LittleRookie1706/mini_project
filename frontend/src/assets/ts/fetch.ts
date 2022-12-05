@@ -75,6 +75,16 @@ async function fetchGetNewsComments(newsId: number) {
     return result
 }
 
+async function fetchGetSearch(searchContent: string, tags: number) {
+    let api
+    if(tags!=0){api = `${searchContent}?tag=${tags}`}
+    else{api = searchContent}
+    const response = await fetch(`${baseURL}/search/${api}`);
+    if (!response.ok) {return []}
+    const result = await response.json()
+    return result
+}
+
 // POST
 async function fetchPostComment(newsId: number, rating: number, content: string){
     const response = await fetch(`${baseURL}/news/comments`,
@@ -150,6 +160,7 @@ export {
     fetchGetNewsList, fetchGetSlideshow,fetchGetMostView,
     fetchGetTags,fetchGetNewsTags,
     fetchGetNews,fetchGetNewsComments,
+    fetchGetSearch,
     // POST
     fetchPostComment, 
     fetchCreateNews,

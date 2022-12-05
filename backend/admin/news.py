@@ -12,7 +12,7 @@ from user.authentication.discord_oauth import discord
 from fastapi_discord import User
 from models import Users, News, Tags, vn_now
 from user.news.schemas import NewsSchema, PostNewsSchema, PatchNewsSchema
-from database.imgbb.sync import upload_imgbb_image, async_delete_image
+from database.imgbb.sync import upload_imgbb_image, async_delete_image, delete_image
 
 def is_slideshow(banner_img):
     if banner_img in ["", None]:
@@ -25,7 +25,7 @@ async def img_handle(file: File):
         content = await file.read()
         await out_file.write(content)
     link = upload_imgbb_image(file_direct)
-    await async_delete_image(file_direct)
+    delete_image(file_direct)
     return link
 
 async def img_save(thumbnail_img: File, og_img: Optional[File] = None, banner_img: Optional[File] = None):
@@ -71,7 +71,7 @@ async def post_news(
             updated_by=user,
         )
         newsmodel.tags.add([ Tags.get(Tags.id == x) for x in tags ])
-        return "oke"
+        return newsmodel.__data__
     else:
         raise HTTPException(detail={"error": "Permission denied"}, status_code=403)
 

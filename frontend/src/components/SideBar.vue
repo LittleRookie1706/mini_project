@@ -1,22 +1,4 @@
 <template>
-    <!-- <v-navigation-drawer
-        expand-on-hover
-        rail
-    >
-        <v-list>
-        <v-list-item
-            :prepend-avatar="currentUser.avatar"
-            :title="currentUser.username"
-            :subtitle="currentUser.email"
-        ></v-list-item>
-        </v-list>
-
-        <v-divider></v-divider>
-
-        <v-list density="compact" nav>
-            <v-list-item v-for="item in items" :key="item.id" :prepend-icon="item.icon" :title="item.title" :value="item.value"></v-list-item>
-        </v-list>
-    </v-navigation-drawer> -->
     <v-navigation-drawer
         v-model="drawer"
         :rail="rail"
@@ -30,19 +12,10 @@
             @click="rail = !rail"
             nav
         >
-            <!-- <template v-slot:append>
-                <v-btn
-                    variant="text"
-                    icon="fas fa-angle-left"
-                    @click="rail = true"
-                ></v-btn>
-            </template> -->
         </v-list-item>
-
         <v-divider></v-divider>
-
         <v-list density="compact" nav>
-            <v-list-item v-for="item in items" :key="item.id" :prepend-icon="item.icon" :title="item.title" :value="item.value" :active="item.active"></v-list-item>
+            <v-list-item v-for="item in items" :key="item.id" :prepend-icon="item.icon" :title="item.title" :value="item.value" :active="item.active" :href="item.href"></v-list-item>
         </v-list>
     </v-navigation-drawer>
 </template>
@@ -51,17 +24,26 @@
     import { ref, defineProps, onMounted } from 'vue'
     import * as fetchAPI from '@/assets/ts/fetch.ts'
 
+    const props = defineProps({ activeIcon: String })
+
     const rail = ref(true)
     const drawer = ref(true)
     const items = ref([
-        { id: 1, title: 'Manage content', icon: 'fas fa-bars-progress', value: 'manage', active: true },
-        { id: 2, title: 'Statistic', icon: 'fas fa-chart-simple', value:'statistic', active: false },
+        { id: 1, title: 'Manage content', icon: 'fas fa-bars-progress', value: 'manage', active: false, href: '/admin/manage-content' },
+        { id: 2, title: 'Statistic', icon: 'fas fa-chart-simple', value:'statistic', active: false, href: '/admin/statistic' },
     ])
 
     const currentUser = ref({})
 
     onMounted(async () =>{
+
+        for (const i of Object.keys(items.value)) {
+            if(items.value[i]['value']==props.activeIcon){
+                items.value[i].active = true
+            }
+        }
         currentUser.value = await fetchAPI.fetchGetUser()
+        
     })
 
 

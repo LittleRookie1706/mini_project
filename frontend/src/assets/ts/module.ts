@@ -1,9 +1,9 @@
-interface AddObject {
+interface TsObject{
     [key: string]: any
 }
 
 function compareObject(object1: any, object2: any){
-    const result: AddObject = {};
+    const result: TsObject = {};
     // console.log(object1, object2)
     for (const key of Object.keys(object1)) {
         if(object1[key]!=object2[key]){
@@ -27,6 +27,7 @@ function randomString(length: number) {
 
 
 export {
+    TsObject,
     compareObject, 
     randomString
 }

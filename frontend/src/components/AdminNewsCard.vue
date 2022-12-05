@@ -32,7 +32,7 @@
                                                 <v-btn icon="fas fa-pen"  color="white" class="elevation-5"></v-btn>  
                                             </router-link>
                                             <v-spacer></v-spacer>
-                                            <v-btn icon="fas fa-trash" color="#FF6961" class="elevation-5" @click="deleteNews(news.id)"></v-btn>
+                                            <v-btn icon="fas fa-trash" color="#FF6961" class="elevation-5" @click="deleteDialog = true"></v-btn>
                                         </v-col>
                                     </v-row>
                                 </v-container>
@@ -51,6 +51,18 @@
                     </v-card>
                 </v-col>
             </v-row>
+            <v-dialog v-model="deleteDialog" width="400px">
+                <v-card>
+                    <v-card-text>
+                        Bạn có chắc chắn muốn xóa tin này ?
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="blue" @click="deleteDialog = false">Hủy</v-btn>
+                        <v-btn color="red" @click="deleteNews(news.id)">Xóa</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
     </v-card>
 </template>
 
@@ -58,13 +70,16 @@
     import { ref, defineProps } from 'vue';
     import * as fetchAPI from '@/assets/ts/fetch'
     const props = defineProps({ news: Object })
-    let show = ref<boolean>(true)
 
-    function deleteNews(news_id: number){
+    let show = ref<boolean>(true)
+    const deleteDialog = ref<boolean>(false)
+
+    function deleteNews(newsId: number){
         Promise.all([
-            fetchAPI.fetchDeleteNews(news_id)
+            fetchAPI.fetchDeleteNews(newsId)
         ]).then((values) => {
             if(values[0].status === 'success'){
+                deleteDialog.value = false
                 show.value = false
             }
         });

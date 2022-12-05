@@ -1,7 +1,7 @@
 import sys  
 from pathlib import Path  
 file = Path(__file__). resolve()  
-package_root_directory = file.parents[3] 
+package_root_directory = file.parents[1] 
 sys.path.append(str(package_root_directory)) 
 
 import json
@@ -49,25 +49,39 @@ def create_sample_news():
     clean_title()
     # clean_content()
 
+def create_sample_search():
+    from database.meilisearch.sync.news import add_news_meili
+    
+    news_list = list(News.select().dicts())
+    for news in news_list:
+        add_news_meili({
+                "id": news["id"],
+                "title" : news["title"],
+                "description": news["description"],
+                "thumbnail_img" : news["thumbnail_img"],
+                "tags" : [key["id"] for key in News.get_tags(news["id"])],
+            })
 
 sample_data={
-    "taggroup": create_sample_tag_groups(),
-    "tags": create_sample_tags(),
-    "users": create_sample_users(),
-    # "comments": create_sample_comments(),
-    "news": create_sample_news(),
+    "taggroup": create_sample_tag_groups,
+    "tags": create_sample_tags,
+    "users": create_sample_users,
+    "comments": create_sample_comments,
+    "news": create_sample_news,
+    "search": create_sample_search,
 }
 
+def create_sample_data(data_tables: list):
+    for data in data_tables:
+        if data in sample_data.keys():
+            sample_data[data]()
 
-# def create_sample_data(data_tables: list):
-#     for data in data_tables:
-#         sample_data[data]
-
-# create_sample_data([
-#     # "tags",
-#     # "taggroup",
-#     # "users",
-#     # "comments",
-#     "news",
-# ])
+create_sample_data([
+    "tags",
+    "taggroup",
+    "users",
+    "comments",
+    "news",
+    "search"
+])
 

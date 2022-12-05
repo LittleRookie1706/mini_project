@@ -4,7 +4,7 @@ services:
 
   frontend:
     container_name: mini_project_fe
-    image: bangtx/mini_project_fe:latest
+    image: mini_project_fe:latest
     build:
       context: ./
       dockerfile: Dockerfile

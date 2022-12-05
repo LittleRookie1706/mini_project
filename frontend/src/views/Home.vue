@@ -1,7 +1,7 @@
 <template>
 
 <v-app>
-<TopBar :baseURL="baseURL" :loginURL="loginURL" />
+<TopBar :tagsList="tagsList" />
 
 <v-main>
   <v-container>Content area</v-container>

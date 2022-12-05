@@ -13,7 +13,7 @@ def save_image(url):
 	return image
 
 def delete_image(image):
-	asyncio.sleep(2)
+	# asyncio.sleep(2)
 	os.remove(image)
 
 async def async_delete_image(image):

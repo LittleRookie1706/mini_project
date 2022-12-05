@@ -95,7 +95,7 @@ elif [[ ${args[0]} == "be" ]]; then
             color="$green"
         elif [[ ${args[2]} == "sampledata" ]]; then
             echo "Starting database..."
-            eval "docker compose exec backend python database/postgres/peewee/sample_data.py"
+            eval "docker compose exec backend python database/sample_data.py"
             output="Done"
             color="$green"
         else

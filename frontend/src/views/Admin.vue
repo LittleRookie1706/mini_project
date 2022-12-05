@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <SideBar />
+        <SideBar :activeIcon="activeIcon" />
         <v-main class="ml-10">
             <v-container>
                 <p class="text-h4 font-weight-bold">Filter</p>
@@ -53,6 +53,7 @@
 
     const route = useRoute()
     var pageNumber = parseInt(route.params.pageNumber)
+    const activeIcon = ref<string>('manage')
 
     const newsList = ref<MinimumNews[]>([])
 
@@ -67,9 +68,7 @@
 
     function pageLoad(num: number) {
         pageNumber = num
-        Promise.all([
-        fetchAPI.fetchGetNewsList(pageNumber),
-        ]).then((values) => {
+        Promise.all([fetchAPI.fetchGetNewsList(pageNumber)]).then((values) => {
             newsList.value = values[0]
         });
         window.scrollTo(0,0);

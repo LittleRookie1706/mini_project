@@ -46,8 +46,8 @@ class News(PeeweeModel):
 
     @classmethod
     def get_by_page(cls, page: int):
-        start_point = (page-1) * 20
-        end_point = page * 20
+        start_point = (page-1) * 17
+        end_point = page * 17
         query = cls.select(News.id, News.view, News.rating, News.description, News.title, News.thumbnail_img, News.banner_img, News.is_slideshow).order_by(News.id.desc()).dicts()
         return list(query[start_point:end_point])
 
@@ -64,9 +64,23 @@ class News(PeeweeModel):
         return list(query[start_point:end_point])
 
     @classmethod
+    def get_by_tag(cls, tag: int, page: int):
+        start_point = (page-1) * 20
+        end_point = page * 20
+        news_list = [news["news"] for news in list(NewsTags.select(NewsTags.news_id).where(NewsTags.tags_id==tag).dicts())]
+        print(news_list)
+        query = (cls.select(News.id, News.view, News.rating, News.description, News.title, News.thumbnail_img, News.banner_img, News.is_slideshow)
+                    .where(News.id in news_list)
+                    # .order_by(News.id.desc())
+                ).dicts()
+        print(list(query))
+        return list(query[start_point:end_point])
+
+    @classmethod
     def get_tags(cls, news_id: int):
         news_tags = NewsTags.select(Tags.id, Tags.name).join(Tags).where(NewsTags.news_id==news_id).dicts()
         return list(news_tags)
+
 
 NewsTags = News.tags.get_through_model()
 # db.create_tables([NewsTags])
