@@ -24,10 +24,14 @@ function randomString(length: number) {
     return result;
 }
 
+function getDateString(date: Date){
+    return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+}
 
 
 export {
     TsObject,
     compareObject, 
-    randomString
+    randomString,
+    getDateString,
 }

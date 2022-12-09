@@ -28,7 +28,6 @@
                     v-model="tagSelected"
                     :items="tagsList.map(tag => tag.name)"
                     variant="solo"
-                    
                     color="black"
                     single-line
                     hide-details
@@ -51,9 +50,9 @@
                     <v-list v-show="showSearchResult">
                         <v-list-item-group>
                             <v-list-item
-                            v-for="(item, i) in searchBarItems"
-                            :key="i"
-                            :href="item.id"
+                                v-for="(item, i) in searchBarItems"
+                                :key="i"
+                                :href="item.id"
                             >
                                 <v-row class="ma-auto justify-center">
                                     <v-col cols="2">

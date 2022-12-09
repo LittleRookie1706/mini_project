@@ -1,17 +1,20 @@
+import os
 from sqlmodel import SQLModel
-
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
 
 from all_env import DATABASE_URL
 
-engine = create_async_engine(DATABASE_URL, echo=True, future=True)
+TESTING = os.environ.get("TESTING")
+if TESTING:
+    DATABASE_URL += '_test'
 
+engine = create_async_engine(DATABASE_URL, echo=True, future=True)
 
 async def init_db():
     async with engine.begin() as conn:
-        # await conn.run_sync(SQLModel.metadata.drop_all)
+        await conn.run_sync(SQLModel.metadata.drop_all)
         await conn.run_sync(SQLModel.metadata.create_all)
 
 

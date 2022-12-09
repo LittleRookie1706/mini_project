@@ -1,6 +1,4 @@
 import os
-import urllib
-
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -32,13 +30,13 @@ POSTGRES_USER = os.environ.get('POSTGRES_USER', 'postgres')
 POSTGRES_PASS = os.environ.get('POSTGRES_PASSWORD', 'secret')
 ssl_mode = os.environ.get('ssl_mode','prefer')
 
-DATABASE_URL = 'postgresql://{}:{}@{}:{}/{}?sslmode={}'.format(POSTGRES_USER, POSTGRES_PASS, POSTGRES_HOST, POSTGRES_PORT, POSTGRES_DB, ssl_mode)
+DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASS}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
 
 # docker db
 # DATABASE_URL = 'postgresql+psycopg2://postgres:postgres@db:5432'
 
 # docker async db
-DATABASE_URL = 'postgresql+asyncpg://postgres:postgres@db:5432'
+# DATABASE_URL = 'postgresql+asyncpg://postgres:postgres@db:5432'
 
 # imgbb
 IMGBB_API_KEY = os.environ.get('IMGBB_API_KEY',None)

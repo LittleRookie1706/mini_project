@@ -7,3 +7,4 @@ router = APIRouter(
 )
 
 from .news import *
+from .statistic import *

@@ -11,6 +11,10 @@ import * as directives from 'vuetify/directives'
 import '@fortawesome/fontawesome-free/css/all.css' // Ensure your project is capable of handling css files
 import { aliases, fa } from 'vuetify/iconsets/fa'
 
+// datepicker
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+
 const vuetify = createVuetify({
   components,
   directives,
@@ -26,8 +30,9 @@ const vuetify = createVuetify({
 
 loadFonts()
 
-createApp(App)
-  .use(router)
-  .use(vuetify)
-  .mount('#app')
+const app = createApp(App)
+app.use(router)
+app.use(vuetify)
+app.component('Datepicker', Datepicker)
+app.mount('#app')
   

@@ -3,7 +3,8 @@ import uvicorn
 
 # custom
 from all_env import environ
-from base.routers import app
+# from base.routers import app
+from base.event_handle import app
 
 ### START ###
 if __name__ == '__main__':

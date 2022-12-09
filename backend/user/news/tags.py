@@ -12,6 +12,6 @@ from models import Tags
 
 
 @router.get("/tags/", response_model=List[TagsSchema])
-@cache(expire=3600)
+# @cache(expire=3600)
 async def list_tags():
     return Tags.get_list()

@@ -103,6 +103,9 @@ elif [[ ${args[0]} == "be" ]]; then
             color="$red"
         fi
 
+    elif [[ ${args[1]} == "test" ]]; then
+        output=$(eval "docker compose exec backend pytest --cov blackjack --cov-report html")
+
     else
         output="Unknow command '${args[1]}'"
         color="$red"

@@ -3,10 +3,11 @@ from pathlib import Path
 file = Path(__file__). resolve()  
 package_root_directory = file.parents[1] 
 sys.path.append(str(package_root_directory)) 
+# 
 
 import json
 import datetime
-from models import Tags, News, TagGroups, Users
+from base.test_conf.models import Tags, News, TagGroups, Users
 
 def create_sample_tag_groups():
     with open('database/postgres/peewee/sample_data/taggroups.json', encoding='utf-8') as f:
@@ -28,7 +29,7 @@ def create_sample_comments():
     pass
 
 def create_sample_news():
-    from database.postgres.peewee.clean_data import clean_title, clean_content
+    from base.test_conf.clean_data import clean_title, clean_content
 
     with open('database/postgres/peewee/sample_data/news.json', encoding='utf-8') as f:
         data = json.loads(f.read())

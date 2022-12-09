@@ -1,8 +1,6 @@
 # fastapi
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.middleware import Middleware
-
 
 #local
 from all_env import docs_url

@@ -85,6 +85,16 @@ async function fetchGetSearch(searchContent: string, tags: number) {
     return result
 }
 
+async function fetchGetStatistic(startDate: Date, endDate: Date, viewByDate: boolean, viewByTag: boolean, avgRateByYag: boolean, rateByTag: boolean){
+    const response = await fetch(`${baseURL}/admin/statistic?start_date=${startDate}&end_date=${endDate}&view_by_date=${viewByDate}&view_by_tag=${viewByTag}&avg_rate_by_tag=${avgRateByYag}&rate_by_tag=${rateByTag}`,
+    {   method: 'GET', 
+        headers: myHeaders
+    });
+    if (!response.ok) {return []}
+    const result = await response.json()
+    return result
+}
+
 // POST
 async function fetchPostComment(newsId: number, rating: number, content: string){
     const response = await fetch(`${baseURL}/news/comments`,
@@ -161,6 +171,7 @@ export {
     fetchGetTags,fetchGetNewsTags,
     fetchGetNews,fetchGetNewsComments,
     fetchGetSearch,
+    fetchGetStatistic,
     // POST
     fetchPostComment, 
     fetchCreateNews,

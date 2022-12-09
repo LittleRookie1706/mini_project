@@ -71,9 +71,8 @@ async def post_news(
             updated_by=user,
         )
         newsmodel.tags.add([ Tags.get(Tags.id == x) for x in tags ])
-        return newsmodel.__data__
-    else:
-        raise HTTPException(detail={"error": "Permission denied"}, status_code=403)
+        return JSONResponse(newsmodel.__data__, status_code=201)
+    raise HTTPException(detail={"error": "Permission denied"}, status_code=403)
 
 @router.patch("/news/{news_id}", dependencies=[Depends(discord.requires_authorization)])
 async def patch_news(
@@ -115,8 +114,7 @@ async def patch_news(
             return update_values
 
         raise HTTPException(detail={"error": "News does not excist"}, status_code=404)
-    else:
-        raise HTTPException(detail={"error": "Permission denied"}, status_code=403)
+    raise HTTPException(detail={"error": "Permission denied"}, status_code=403)
 
 @router.delete("/news/{news_id}", dependencies=[Depends(discord.requires_authorization)])
 async def delete_news(news_id: int, user: User = Depends(discord.user)):
@@ -127,6 +125,5 @@ async def delete_news(news_id: int, user: User = Depends(discord.user)):
             old_newsmodel.delete_instance(recursive=True)
             return JSONResponse({"status": "success"}, status_code=200)
         raise HTTPException(detail={"error": "News does not excist"}, status_code=404)
-    else:
-        raise HTTPException(detail={"error": "Permission denied"}, status_code=403)
+    raise HTTPException(detail={"error": "Permission denied"}, status_code=403)
 

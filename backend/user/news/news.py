@@ -13,7 +13,7 @@ from models import News
     
 @router.get("/news/")
 # @cache(expire=3600)
-async def get_news_by_page_number(
+async def get_news_list(
     page_number: Optional[int] = None, 
     is_slideshow: Optional[bool] = None, 
     order_by_view: Optional[bool] = None,
@@ -31,9 +31,9 @@ async def get_news_by_page_number(
     raise HTTPException(detail={"error": "Invalid page_number"}, status_code=400)
 
 
-@router.get("/news/{news_id}/")
+@router.get("/news/{news_id}/", name="news:get-news-by-id")
 # @cache(expire=3600)
-async def get_news_by_page_number(news_id: int):
+async def get_news(news_id: int):
     news = News.get_or_none(id=news_id)
     if news:
         News.update(view=News.view+1).where(News.id==news.id).execute()
@@ -44,7 +44,7 @@ async def get_news_by_page_number(news_id: int):
 
 
 @router.get("/news/{news_id}/tags/")
-async def get_news_by_page_number(news_id: int):
+async def get_news_tags(news_id: int):
     news = News.get_or_none(id=news_id)
     if news:
         return News.get_tags(news_id)
