@@ -30,8 +30,8 @@
                                 <v-container class="d-flex align-end flex-column">
                                     <v-sheet class="ma-1 mt-auto ">
                                         <div>
-                                        <v-icon size="small" variant="text" icon="fas fa-star" color="#FFB144"></v-icon> {{ news.rating }}
-                                        <v-icon class="ml-1" size="small" variant="text" icon="fas fa-eye" color="#4F77AA"></v-icon> {{ news.view }}
+                                            <v-icon size="small" variant="text" icon="fas fa-star" color="#FFB144"></v-icon>{{ news.rating }}
+                                            <v-icon class="ml-1" size="small" variant="text" icon="fas fa-eye" color="#4F77AA"></v-icon> {{ news.view }}
                                         </div>
                                     </v-sheet>
                                     

@@ -46,6 +46,7 @@
                     activator="#search-bar" 
                     transition="slide-y-transition"
                     persistent
+                    max-width="644"
                 >
                     <v-list v-show="showSearchResult">
                         <v-list-item-group>

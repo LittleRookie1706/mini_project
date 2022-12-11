@@ -2,7 +2,7 @@ import { randomString } from '@/assets/ts/module'
 
 const baseURL = "http://localhost/api"
 const loginURL = "https://discord.com/api/oauth2/authorize?client_id=937351409198829681&redirect_uri=http%3A%2F%2F127.0.0.1%3A8080%2Fdiscord_oauth&response_type=code&scope=identify%20email%20connections%20guilds%20guilds.members.read"
-const accessToken = 'XQlYdTHW5G02ZG1N6rOR2Y50A8uYSs'
+const accessToken = '9eyXNGZFduS2X9YcFCDEsMrbUxIvqB'
 
 const myHeaders = new Headers({
     'Authorization': `Bearer ${accessToken}`,
